@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_items_array">
+        <item>Название</item>
+        <item>Актер</item>
+        <item>Год</item>
+        <item>TODO…</item>
+    </string-array>
+</resources>

@@ -1,24 +1,25 @@
 package com.oder.cinema
 
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.oder.cinema.adapters.MoviesAdapter
 import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
 import com.oder.cinema.data.MoviesRepository
 import com.oder.cinema.databinding.MoviesFragmentBinding
+import com.oder.cinema.model.Docs
 import com.oder.cinema.viewmodels.MoviesViewModel
-import com.oder.cinema.viewmodels.ViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -66,9 +67,14 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                 }
             }
             _moviesAdapter.onDetailBtnClick = { doc ->
-                childFragmentManager.commit {
+                activity?.supportFragmentManager?.commit {
                     setReorderingAllowed(true)
-                    replace<FavoriteMoviesFragment>(R.id.fragmentContainerView)
+                    val bundle = Bundle()
+                    bundle.putString(Docs::class.java.name, Gson().toJson(doc))
+                    replace<MovieDetail>(
+                        R.id.fragmentContainerView,
+                        args = bundle
+                    )
                     addToBackStack("movies")
                 }
             }
@@ -82,6 +88,13 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                 bindMovies(searchValue)
             }
         }
+        /*_binding.moviesSearchSpinner.adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.search_items_array,
+            com.google.android.material.R.layout.support_simple_spinner_dropdown_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(com.google.android.material.R.layout.support_simple_spinner_dropdown_item)
+        }*/
     }
 
     private fun bindMovies(movieName: String) {
