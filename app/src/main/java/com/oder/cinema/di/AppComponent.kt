@@ -46,9 +46,7 @@ class DatabaseModule {
     fun provideMoviesDatabase(
         applicationContext: Context
     ): MoviesDatabase = Room.databaseBuilder(
-        applicationContext,
-        MoviesDatabase::class.java,
-        "movies-database"
+        applicationContext, MoviesDatabase::class.java, "movies-database"
     ).build()
 
 }
@@ -62,16 +60,11 @@ class NetworkModule {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
-        val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(httpLoggingInterceptor)
-            .build()
+        val okHttpClient = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.kinopoisk.dev")
-            .client(okHttpClient)
+        val retrofit = Retrofit.Builder().baseUrl("https://api.kinopoisk.dev").client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .build()
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create()).build()
         return retrofit.create()
     }
 

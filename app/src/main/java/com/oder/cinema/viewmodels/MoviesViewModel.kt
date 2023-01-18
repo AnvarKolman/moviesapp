@@ -2,32 +2,24 @@ package com.oder.cinema.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.oder.cinema.data.MoviesRepository
-import javax.inject.Inject
+import com.oder.cinema.model.Docs
+import com.oder.cinema.model.Result
+import io.reactivex.rxjava3.core.Single
 
-class MoviesViewModel @Inject constructor(
+class MoviesViewModel(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
-
-    //val moviesLiveData: LiveData<List<Docs>>
 
     fun fetchMoviesByName(movieName: String) {
         moviesRepository.findByName(movieName)
     }
 
-    /*class Factory @AssistedInject constructor(
-        private val moviesRepository: MoviesRepository
-    ) : ViewModelProvider.Factory {
+    fun saveDoc(docs: Docs) {
+        moviesRepository.saveDoc(docs)
+    }
 
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            require(modelClass == MoviesViewModel::class)
-            return MoviesViewModel(moviesRepository) as T
-        }
-
-        @AssistedFactory
-        interface Factory {
-            fun create(): MoviesViewModel.Factory
-        }
-    }*/
+    fun findByName(movieName: String): Single<Result> {
+        return moviesRepository.findByName(movieName)
+    }
 
 }

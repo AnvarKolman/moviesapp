@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -16,10 +15,10 @@ import com.google.gson.Gson
 import com.oder.cinema.adapters.MoviesAdapter
 import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
-import com.oder.cinema.data.MoviesRepository
 import com.oder.cinema.databinding.MoviesFragmentBinding
 import com.oder.cinema.model.Docs
 import com.oder.cinema.viewmodels.MoviesViewModel
+import com.oder.cinema.viewmodels.MoviesViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -28,23 +27,23 @@ import javax.inject.Inject
 
 class MoviesFragment : Fragment(R.layout.movies_fragment) {
 
-    /*@Inject
-    private lateinit var viewModelFactory: ViewModelFactory*/
-    private val _viewModel: MoviesViewModel by viewModels()
+
     private val _moviesAdapter = MoviesAdapter()
     private lateinit var _binding: MoviesFragmentBinding
 
+
+    private val cs: CompositeDisposable = CompositeDisposable()
+
+    private val _viewModel: MoviesViewModel by viewModels {
+        factory.create()
+    }
+
     @Inject
-    lateinit var moviesRepository: MoviesRepository
-
-    val cs: CompositeDisposable = CompositeDisposable()
-
-    /*@Inject
-    lateinit var factory: MoviesViewModel.Factory.Factory*/
+    lateinit var factory: MoviesViewModelFactory.Factory
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (context as MainActivity).appComponent.inject(this)
+        context.appComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -63,7 +62,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
             adapter = _moviesAdapter
             _moviesAdapter.onFavoriteBtnClick = { docs, isPressed ->
                 if (isPressed) {
-                    moviesRepository.saveDoc(docs)
+                    _viewModel.saveDoc(docs)
                 }
             }
             _moviesAdapter.onDetailBtnClick = { doc ->
@@ -101,7 +100,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         _binding.moviesIndicator.show()
         _binding.infoTextView.visibility = View.GONE
         _moviesAdapter.setData(emptyList())
-        val single = moviesRepository.findByName(movieName)
+        val single = _viewModel.findByName(movieName)
         val disposable = single.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { it.docs }
