@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -57,7 +58,12 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
+        context?.let { // Todo допилить
+            if (isOnline(it)) {
+                Toast.makeText(it, "Отсутвует подключение к сети интернет", Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onFavoriteBtnClick = { doc, isPressed ->
@@ -128,20 +134,4 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         }
         super.onDestroy()
     }
-
-    private suspend fun resolveImages(movies: List<MovieModel>) {
-        movies.forEach { movie ->
-            movie.imageUrl?.let { _url ->
-                /*//val bitmap = moviesRepository.getImage(imageUrl = _url)
-                bitmap?.let {
-                    movie.image = it
-                }*/
-            }
-        }
-
-    }
-
-    private fun setupRecyclerView() = _binding.cinemaRecycler.apply {
-    }
-
 }
