@@ -24,7 +24,7 @@ android {
         }
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 
@@ -37,7 +37,6 @@ android {
     }
     namespace 'com.oder.cinema'
 }
-
 
 
 dependencies {
@@ -70,8 +69,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     //room
+    def roomVersion = "2.5.0"
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-rxjava3:$roomVersion")
 
     // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:$roomVersion")
@@ -87,6 +88,6 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.44.2'
 }
 
-kapt{
+kapt {
     correctErrorTypes = true
 }

@@ -1,25 +1,44 @@
 package com.oder.cinema.data
 
 import com.oder.cinema.MovieModel
-import com.oder.cinema.data.storage.LocalDataSource
+import com.oder.cinema.Token
+import com.oder.cinema.data.room.MovieEntity
+import com.oder.cinema.data.room.MoviesDatabase
 import com.oder.cinema.model.Docs
 import com.oder.cinema.model.Result
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 interface MoviesRepository {
     suspend fun getMovies(): List<MovieModel>
     fun findByName(movieName: String): Single<Result>
     fun findById(id: String): Single<Result>
-    fun saveDoc(docs: Docs)
+    fun saveDoc(docs: Docs): Completable
 }
 
 class MoviesRepositoryImpl(
-    private val moviesService: MoviesService
+    private val moviesService: MoviesService,
+    private val moviesDatabase: MoviesDatabase,
 ) : MoviesRepository {
 
-    private val token = "06MD2ET-PGHMH4W-M5K93FD-2PQBZ0F"
+    private val token = Token().token()
 
-    override fun saveDoc(docs: Docs) {
+    override fun saveDoc(docs: Docs): Completable =
+        moviesDatabase.movieDao().insertAll(
+            MovieEntity(
+                id = docs.id ?: 10,
+                name = wrapNull(docs.name),
+                alternativeName = wrapNull(docs.alternativeName),
+                enName = wrapNull(docs.enName),
+                year = docs.year ?: 1,
+                movieLength = docs.movieLength ?: 10,
+                description = wrapNull(docs.description)
+            )
+        )
+
+
+    private fun wrapNull(value: String?): String {
+        return value ?: ""
     }
 
     override suspend fun getMovies(): List<MovieModel> {

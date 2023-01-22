@@ -11,7 +11,7 @@ data class Docs(
     @SerializedName("movieLength") var movieLength: Int? = null,
     @SerializedName("id") var id: Int? = null,
     @SerializedName("type") var type: String? = null,
-    @SerializedName("name") var name: String? = null,
+    @SerializedName("name") var name: String = "",
     @SerializedName("description") var description: String? = null,
     @SerializedName("year") var year: Int? = null,
     @SerializedName("alternativeName") var alternativeName: String? = null,

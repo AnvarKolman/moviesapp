@@ -2,12 +2,14 @@ package com.oder.cinema.di
 
 import android.content.Context
 import androidx.room.Room
+import com.oder.cinema.FavoriteMoviesFragment
 import com.oder.cinema.MainActivity
 import com.oder.cinema.MoviesFragment
-import com.oder.cinema.data.MoviesDatabase
+import com.oder.cinema.data.room.MoviesDatabase
 import com.oder.cinema.data.MoviesRepository
 import com.oder.cinema.data.MoviesRepositoryImpl
 import com.oder.cinema.data.MoviesService
+import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -25,16 +27,25 @@ interface AppComponent {
     fun inject(activity: MainActivity)
 
     fun inject(moviesFragment: MoviesFragment)
+    fun inject(favoriteMoviesFragment: FavoriteMoviesFragment)
+
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance context: Context): AppComponent
+    }
+
 }
 
-@Module(includes = [NetworkModule::class])
+@Module(includes = [NetworkModule::class, DatabaseModule::class])
 class AppModule {
 
     @Provides
+    @Singleton
     fun provideMoviesRepository(
-        moviesService: MoviesService
+        moviesService: MoviesService,
+        moviesDatabase: MoviesDatabase,
     ): MoviesRepository {
-        return MoviesRepositoryImpl(moviesService)
+        return MoviesRepositoryImpl(moviesService, moviesDatabase)
     }
 }
 

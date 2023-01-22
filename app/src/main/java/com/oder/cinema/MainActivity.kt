@@ -17,7 +17,7 @@ class MainApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerAppComponent.create()
+        appComponent = DaggerAppComponent.factory().create(this)
     }
 }
 
@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val buttonNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        val navigation = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)?.findNavController()
+        val navigation =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView)?.findNavController()
         /*val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.moviesFragment,

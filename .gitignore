@@ -84,3 +84,4 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 .idea/git_toolbox_prj.xml
+app/src/main/java/com/oder/cinema/Token.kt

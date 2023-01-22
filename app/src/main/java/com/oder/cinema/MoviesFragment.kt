@@ -60,9 +60,11 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         setupRecyclerView()
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
-            _moviesAdapter.onFavoriteBtnClick = { docs, isPressed ->
+            _moviesAdapter.onFavoriteBtnClick = { doc, isPressed ->
                 if (isPressed) {
-                    _viewModel.saveDoc(docs)
+                    _viewModel.saveDoc(doc).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe()
                 }
             }
             _moviesAdapter.onDetailBtnClick = { doc ->
