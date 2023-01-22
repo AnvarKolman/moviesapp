@@ -10,7 +10,7 @@ import com.oder.cinema.databinding.FragmentMovieDetailBinding
 import com.oder.cinema.model.Docs
 import com.squareup.picasso.Picasso
 
-class MovieDetail : Fragment(R.layout.fragment_movie_detail) {
+class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     private lateinit var _binding: FragmentMovieDetailBinding
     private val gson = Gson()
@@ -29,13 +29,19 @@ class MovieDetail : Fragment(R.layout.fragment_movie_detail) {
         val arg = arguments?.getString(Docs::class.java.name)
         gson.fromJson(arg, Docs::class.java)?.let {
             Picasso.get().load(it.poster?.url).into(_binding.movieImageView)
-            _binding.movieNameTextView.text = it.name
+            _binding.movieName.text = it.name
             it.alternativeName?.let { alternativeName ->
-                _binding.alternativeNameTextView.text = alternativeName
+                _binding.alternativeName.text = alternativeName
             }
             _binding.movieDescriptionTextView.text = it.description
+            _binding.type.text = when (it.type) {
+                "movie" -> "Фильм"
+                else -> "" // TODO нужен маппер
+            }
+            _binding.year.text = it.year.toString()
+            _binding.time.text = it.movieLength.toString()
+            _binding.ratingTextView.text = it.rating?.imdb.toString()
         }
-
     }
 
 }

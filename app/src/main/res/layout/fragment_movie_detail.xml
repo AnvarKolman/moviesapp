@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="10dp"
     android:orientation="vertical"
-    tools:context=".MovieDetail">
+    tools:context=".MovieDetailFragment">
+
 
     <ImageView
         android:id="@+id/movie_image_view"
@@ -17,31 +18,110 @@
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/movie_name_text_view"
+        android:id="@+id/movie_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="@string/hello_blank_fragment"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="Name" />
 
     <TextView
-        android:id="@+id/alternative_name_text_view"
+        android:id="@+id/alternative_name"
+        style="@style/TextViewHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        tools:text="Alternative name" />
 
-    <TextView
-        android:id="@+id/movie_description_text_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
-        android:textSize="16sp" />
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="6dp">
+
+        <TextView
+            android:id="@+id/year"
+            style="@style/TextViewHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="Unknown"
+            tools:text="2007" />
+
+        <TextView
+            style="@style/TextViewHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_toEndOf="@+id/year"
+            android:text="Год" />
+
+
+        <TextView
+            style="@style/TextViewHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_toStartOf="@+id/rating_textView"
+            android:text="IMDB" />
+
+        <TextView
+            android:id="@+id/rating_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Unknown"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="8dp">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textSize="16sp"
+            tools:text="280" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_toEndOf="@+id/time"
+            android:text="мин." />
+
+        <TextView
+            android:id="@+id/type"
+            style="@style/TextViewHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            tools:text="Фильм" />
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/movie_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:justificationMode="inter_word"
+            android:textSize="16sp" />
+    </ScrollView>
+
 
 </LinearLayout>

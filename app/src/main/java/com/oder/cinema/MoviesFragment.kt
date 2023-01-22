@@ -72,7 +72,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                     setReorderingAllowed(true)
                     val bundle = Bundle()
                     bundle.putString(Docs::class.java.name, Gson().toJson(doc))
-                    replace<MovieDetail>(
+                    replace<MovieDetailFragment>(
                         R.id.fragmentContainerView,
                         args = bundle
                     )
