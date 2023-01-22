@@ -14,6 +14,7 @@ interface MoviesRepository {
     fun findByName(movieName: String): Single<Result>
     fun findById(id: String): Single<Result>
     fun saveDoc(docs: Docs): Completable
+    fun getAll(): Single<List<Docs>>
 }
 
 class MoviesRepositoryImpl(
@@ -35,6 +36,16 @@ class MoviesRepositoryImpl(
                 description = wrapNull(docs.description)
             )
         )
+
+    override fun getAll(): Single<List<Docs>> = moviesDatabase.movieDao().getAll().map {
+        it.map { entity ->
+            Docs(
+                name = entity.name,
+                description = entity.description,
+                id = entity.id,
+            )
+        }
+    }
 
 
     private fun wrapNull(value: String?): String {

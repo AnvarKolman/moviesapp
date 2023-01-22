@@ -23,7 +23,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_baseline_favorite" />
+                android:src="@drawable/ic_outline_add_a_photo_24" />
 
             <TextView
                 android:id="@+id/user_name"
