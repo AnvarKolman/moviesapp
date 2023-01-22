@@ -59,7 +59,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context?.let { // Todo допилить
-            if (isOnline(it)) {
+            if (!isOnline(it)) {
                 Toast.makeText(it, "Отсутвует подключение к сети интернет", Toast.LENGTH_LONG)
                     .show()
             }
