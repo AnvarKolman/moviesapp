@@ -5,70 +5,139 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="10dp"
     card_view:cardCornerRadius="8dp"
     card_view:cardUseCompatPadding="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/movie_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card_view:layout_constraintTop_toBottomOf="@+id/movieTextView">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rating" />
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:elevation="1dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_baseline_local_movies"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/movieName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:padding="6dp"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        tools:text="Movie Name" />
+
+                    <Button
+                        android:id="@+id/favorite_btn"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginHorizontal="10dp"
+                        android:background="@drawable/ic_baseline_more_horiz"
+                        android:textOff=""
+                        android:textOn="" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    tools:layout_editor_absoluteX="8dp">
+
+                    <TextView
+                        android:id="@+id/year"
+                        style="@style/TextViewHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Unknown" />
+
+                    <TextView
+                        style="@style/TextViewHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/year"
+                        android:text="Год" />
+
+
+                    <TextView
+                        android:id="@+id/rating_imdb"
+                        style="@style/TextViewHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/year"
+                        android:text="Unknown" />
+
+                    <TextView
+                        style="@style/TextViewHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/year"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/rating_imdb"
+                        android:text="IMDB" />
+
+                    <TextView
+                        style="@style/TextViewHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rating_imdb"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/rating_kinopoisk"
+                        android:text="Кинопоиск" />
+
+                    <TextView
+                        android:id="@+id/rating_kinopoisk"
+                        style="@style/TextViewHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rating_imdb"
+                        android:text="Unknown" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/detail_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="@string/more"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <ToggleButton
-            android:id="@+id/favorite_btn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="15dp"
-            android:background="@drawable/selector"
-            android:textOff=""
-            android:textOn=""
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@id/movieTextView" />
-
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            android:elevation="1dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
-            card_view:layout_constraintLeft_toLeftOf="parent"
-            card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
         <TextView
-            android:id="@+id/movieTextView"
-            android:layout_width="wrap_content"
+            android:id="@+id/description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@id/image_view" />
-
-        <Button
-            android:id="@+id/detail_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:text="@string/more"
-            android:textSize="16sp"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toEndOf="@id/favorite_btn"
-            card_view:layout_constraintTop_toBottomOf="@id/movieTextView" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_gravity="bottom"
+            android:textSize="18sp"
+            android:visibility="gone"
+            tools:text="description" />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

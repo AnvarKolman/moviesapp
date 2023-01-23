@@ -1,12 +1,11 @@
 package com.oder.cinema.adapters
 
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.ToggleButton
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.oder.cinema.R
 import com.oder.cinema.model.Docs
@@ -28,14 +27,30 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     }
 
     inner class MoviesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
+        val movieName: TextView
         val imageView: ImageView
+        val year: TextView
+        val imdbRating: TextView
+        val kinopoiskRationg: TextView
+        val description: TextView
+        val movie_layout: LinearLayout
         private val favoriteBtn: ToggleButton
         private val detailBtn: Button
+        private val autoTransition = AutoTransition()
 
         init {
-            textView = view.findViewById(R.id.movieTextView)
+            movieName = view.findViewById(R.id.movieName)
             imageView = view.findViewById(R.id.image_view)
+            year = view.findViewById(R.id.year)
+            imdbRating = view.findViewById(R.id.rating_imdb)
+            kinopoiskRationg = view.findViewById(R.id.rating_kinopoisk)
+            description = view.findViewById(R.id.description)
+            movie_layout = view.findViewById(R.id.movie_layout)
+            movie_layout.setOnClickListener {
+                val v = if (description.visibility == View.GONE) View.VISIBLE else View.GONE
+                TransitionManager.beginDelayedTransition(movie_layout, autoTransition)
+                v.also { description.visibility = it }
+            }
             favoriteBtn = view.findViewById(R.id.favorite_btn)
             favoriteBtn.setOnClickListener {
                 onFavoriteBtnClick?.invoke(moviesList[layoutPosition], it.isPressed)
@@ -55,7 +70,11 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         val movie = moviesList[position]
-        holder.textView.text = movie.name
+        holder.movieName.text = movie.name
+        holder.year.text = movie.year.toString()
+        holder.imdbRating.text = movie.rating?.imdb.toString()
+        holder.kinopoiskRationg.text = movie.rating?.kp.toString()
+        holder.description.text = movie.shortDescription
         movie.poster?.url?.let {
             picasso.load(it).into(holder.imageView);
         }
