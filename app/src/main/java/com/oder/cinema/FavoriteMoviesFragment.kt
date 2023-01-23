@@ -52,10 +52,10 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
         super.onViewCreated(view, savedInstanceState)
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
-            _moviesAdapter.onFavoriteBtnClick = { doc, isPressed ->
-                if (isPressed) {
+            _moviesAdapter.onMoreBtnClick = { doc, view ->
+                /*if (isPressed) {
 
-                }
+                }*/
             }
             _moviesAdapter.onDetailBtnClick = { doc ->
                 activity?.supportFragmentManager?.commit {

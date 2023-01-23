@@ -16,7 +16,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
     private val moviesList: MutableList<Docs> = LinkedList()
     private val picasso: Picasso = Picasso.get()
-    var onFavoriteBtnClick: ((Docs, Boolean) -> Unit)? = null
+    var onMoreBtnClick: ((Docs, View) -> Unit)? = null
     var onDetailBtnClick: ((Docs) -> Unit)? = null
 
     fun setData(newDocs: List<Docs>) {
@@ -33,8 +33,8 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         val imdbRating: TextView
         val kinopoiskRationg: TextView
         val description: TextView
-        val movie_layout: LinearLayout
-        private val favoriteBtn: ToggleButton
+        private val movieLayout: LinearLayout
+        private val moreBtn: Button
         private val detailBtn: Button
         private val autoTransition = AutoTransition()
 
@@ -45,15 +45,15 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
             imdbRating = view.findViewById(R.id.rating_imdb)
             kinopoiskRationg = view.findViewById(R.id.rating_kinopoisk)
             description = view.findViewById(R.id.description)
-            movie_layout = view.findViewById(R.id.movie_layout)
-            movie_layout.setOnClickListener {
+            movieLayout = view.findViewById(R.id.movie_layout)
+            movieLayout.setOnClickListener {
                 val v = if (description.visibility == View.GONE) View.VISIBLE else View.GONE
-                TransitionManager.beginDelayedTransition(movie_layout, autoTransition)
+                TransitionManager.beginDelayedTransition(movieLayout, autoTransition)
                 v.also { description.visibility = it }
             }
-            favoriteBtn = view.findViewById(R.id.favorite_btn)
-            favoriteBtn.setOnClickListener {
-                onFavoriteBtnClick?.invoke(moviesList[layoutPosition], it.isPressed)
+            moreBtn = view.findViewById(R.id.favorite_btn)
+            moreBtn.setOnClickListener {
+                onMoreBtnClick?.invoke(moviesList[layoutPosition], it)
             }
             detailBtn = view.findViewById(R.id.detail_btn)
             detailBtn.setOnClickListener {

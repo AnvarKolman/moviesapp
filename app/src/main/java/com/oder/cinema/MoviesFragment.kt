@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -66,12 +67,25 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         }
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
-            _moviesAdapter.onFavoriteBtnClick = { doc, isPressed ->
-                if (isPressed) {
-                    _viewModel.saveDoc(doc).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe()
+            _moviesAdapter.onMoreBtnClick = { doc, view ->
+                val popupMenu = PopupMenu(context, view)
+                popupMenu.inflate(R.menu.more_menu)
+                popupMenu.setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menu_save -> {
+                            _viewModel.saveDoc(doc).subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe()
+                            return@setOnMenuItemClickListener true
+                        }
+                        R.id.menu_share -> {
+                            Toast.makeText(context, "В разработке", Toast.LENGTH_SHORT).show()
+                            return@setOnMenuItemClickListener true
+                        }
+                        else -> return@setOnMenuItemClickListener false
+                    }
                 }
+                popupMenu.show()
             }
             _moviesAdapter.onDetailBtnClick = { doc ->
                 activity?.supportFragmentManager?.commit {
@@ -87,7 +101,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
             }
             layoutManager = LinearLayoutManager(this@MoviesFragment.context)
             addItemDecoration(HorizontalDividerItemDecoration(50))
-            addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 20, 30))
+            addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 10, 20))
         }
         _binding.searchBtn.setOnClickListener {
             val searchValue = _binding.searchEditText.text.toString()
