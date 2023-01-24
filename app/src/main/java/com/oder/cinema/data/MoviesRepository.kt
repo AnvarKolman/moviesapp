@@ -5,6 +5,7 @@ import com.oder.cinema.Token
 import com.oder.cinema.data.room.MovieEntity
 import com.oder.cinema.data.room.MoviesDatabase
 import com.oder.cinema.model.Docs
+import com.oder.cinema.model.Poster
 import com.oder.cinema.model.Result
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
@@ -33,7 +34,8 @@ class MoviesRepositoryImpl(
                 enName = wrapNull(docs.enName),
                 year = docs.year ?: 1,
                 movieLength = docs.movieLength ?: 10,
-                description = wrapNull(docs.description)
+                description = wrapNull(docs.description),
+                imageUrl = docs.poster?.url.toString()
             )
         )
 
@@ -43,6 +45,9 @@ class MoviesRepositoryImpl(
                 name = entity.name,
                 description = entity.description,
                 id = entity.id,
+                poster = Poster(
+                    url = entity.imageUrl
+                )
             )
         }
     }
