@@ -14,7 +14,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/ic_baseline_local_movies"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:text="Unknown"
+            android:text="@string/unknown"
             tools:text="2007" />
 
         <TextView
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_toEndOf="@+id/year"
-            android:text="Год" />
+            android:text="@string/year" />
 
 
         <TextView
@@ -66,14 +66,14 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_toStartOf="@+id/rating_textView"
-            android:text="IMDB" />
+            android:text="@string/imdb" />
 
         <TextView
             android:id="@+id/rating_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="Unknown"
+            android:text="@string/unknown"
             android:textSize="16sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_toEndOf="@+id/time"
-            android:text="мин." />
+            android:text="@string/minutes" />
 
         <TextView
             android:id="@+id/type"

@@ -7,4 +7,14 @@
     <string name="search">Поиск</string>
     <string name="saved">Избранное</string>
     <string name="more">Подробнее</string>
+    <string name="unknown">Unknown</string>
+    <string name="year">Год</string>
+    <string name="imdb">IMDB</string>
+    <string name="minutes">мин.</string>
+    <string name="mail_example">user@gmail.com</string>
+    <string name="edit">Редактировать</string>
+    <string name="night_mode">Ночной режим</string>
+    <string name="username">Username</string>
+    <string name="clear_cache">Очистить кеш</string>
+    <string name="kinopoisk">Кинопоиск</string>
 </resources>

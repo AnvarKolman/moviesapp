@@ -44,6 +44,7 @@
                         android:id="@+id/movieName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/favorite_btn"
                         android:layout_alignParentStart="true"
                         android:padding="6dp"
                         android:textSize="24sp"
@@ -73,7 +74,7 @@
                         style="@style/TextViewHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Unknown" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/TextViewHeader"
@@ -81,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/year"
-                        android:text="Год" />
+                        android:text="@string/year" />
 
 
                     <TextView
@@ -90,7 +91,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/year"
-                        android:text="Unknown" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/TextViewHeader"
@@ -99,7 +100,7 @@
                         android:layout_below="@+id/year"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/rating_imdb"
-                        android:text="IMDB" />
+                        android:text="@string/imdb" />
 
                     <TextView
                         style="@style/TextViewHeader"
@@ -108,7 +109,7 @@
                         android:layout_below="@+id/rating_imdb"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/rating_kinopoisk"
-                        android:text="Кинопоиск" />
+                        android:text="@string/kinopoisk" />
 
                     <TextView
                         android:id="@+id/rating_kinopoisk"
@@ -116,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rating_imdb"
-                        android:text="Unknown" />
+                        android:text="@string/unknown" />
                 </RelativeLayout>
 
                 <Button

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:cursorVisible="true"
         android:hint="@string/movie_name_hint"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:singleLine="true"
         app:layout_constraintEnd_toStartOf="@id/search_btn"
