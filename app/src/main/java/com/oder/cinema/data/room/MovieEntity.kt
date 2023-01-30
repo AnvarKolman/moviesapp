@@ -7,7 +7,7 @@ import com.oder.cinema.data.room.MovieEntity.Companion.TABLE_NAME
 
 @Entity(tableName = TABLE_NAME)
 data class MovieEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey val id: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "alternativeName") val alternativeName: String,
     @ColumnInfo(name = "enName") val enName: String,

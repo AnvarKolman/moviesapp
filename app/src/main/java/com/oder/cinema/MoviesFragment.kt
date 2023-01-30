@@ -75,7 +75,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                         R.id.menu_save -> {
                             _viewModel.saveDoc(doc).subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe()
+                                .subscribe {  }
                             return@setOnMenuItemClickListener true
                         }
                         R.id.menu_share -> {
