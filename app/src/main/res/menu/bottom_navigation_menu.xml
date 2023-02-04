@@ -4,7 +4,7 @@
         android:id="@+id/moviesFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_search"
-        android:title="Поиск" />
+        android:title="@string/search" />
     <item
         android:id="@+id/favoriteMoviesFragment"
         android:enabled="true"
@@ -14,5 +14,5 @@
         android:id="@+id/settingsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Настройки" />
+        android:title="@string/settings" />
 </menu>

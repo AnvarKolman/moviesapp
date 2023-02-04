@@ -17,4 +17,5 @@
     <string name="username">Username</string>
     <string name="clear_cache">Очистить кеш</string>
     <string name="kinopoisk">Кинопоиск</string>
+    <string name="settings">Настройки</string>
 </resources>

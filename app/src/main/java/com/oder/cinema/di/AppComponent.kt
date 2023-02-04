@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.oder.cinema.FavoriteMoviesFragment
 import com.oder.cinema.MainActivity
 import com.oder.cinema.MoviesFragment
+import com.oder.cinema.SearchFragment
 import com.oder.cinema.data.room.MoviesDatabase
 import com.oder.cinema.data.MoviesRepository
 import com.oder.cinema.data.MoviesRepositoryImpl
@@ -28,6 +29,7 @@ interface AppComponent {
 
     fun inject(moviesFragment: MoviesFragment)
     fun inject(favoriteMoviesFragment: FavoriteMoviesFragment)
+    fun inject(searchFragment: SearchFragment)
 
     @Component.Factory
     interface Factory {

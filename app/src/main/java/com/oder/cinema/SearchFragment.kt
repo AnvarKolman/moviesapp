@@ -11,7 +11,6 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,7 @@ import com.google.gson.Gson
 import com.oder.cinema.adapters.MoviesAdapter
 import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
-import com.oder.cinema.databinding.MoviesFragmentBinding
+import com.oder.cinema.databinding.FragmentSearchBinding
 import com.oder.cinema.model.Docs
 import com.oder.cinema.viewmodels.MoviesViewModel
 import com.oder.cinema.viewmodels.MoviesViewModelFactory
@@ -28,13 +27,10 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-
-class MoviesFragment : Fragment(R.layout.movies_fragment) {
-
+class SearchFragment : Fragment() {
 
     private val _moviesAdapter = MoviesAdapter()
-    private lateinit var _binding: MoviesFragmentBinding
-
+    private lateinit var _binding: FragmentSearchBinding
 
     private val cs: CompositeDisposable = CompositeDisposable()
 
@@ -55,17 +51,15 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = MoviesFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return _binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context?.let { // Todo допилить
-            if (!isOnline(it)) {
-                Toast.makeText(it, "Отсутвует подключение к сети интернет", Toast.LENGTH_LONG)
-                    .show()
-            }
+        arguments?.getString("search")?.let {
+            _binding.searchEditText.setText(it)
+            bindMovies(it)
         }
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
@@ -97,37 +91,22 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                     findNavController().navigate(R.id.movieDetailFragment, bundle)
                 }
             }
-            layoutManager = LinearLayoutManager(this@MoviesFragment.context)
+            layoutManager = LinearLayoutManager(this@SearchFragment.context)
             addItemDecoration(HorizontalDividerItemDecoration(50))
             addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 10, 20))
         }
         _binding.searchBtn.setOnClickListener {
-            goToSearchFragment(_binding.searchEditText.text.toString())
+            bindMovies(_binding.searchEditText.text.toString())
         }
 
         _binding.searchEditText.setOnEditorActionListener { view, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
-                    goToSearchFragment(view.text.toString())
+                    bindMovies(view.text.toString())
                     true
                 }
                 else -> false
             }
-        }
-        /*_binding.moviesSearchSpinner.adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.search_items_array,
-            com.google.android.material.R.layout.support_simple_spinner_dropdown_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(com.google.android.material.R.layout.support_simple_spinner_dropdown_item)
-        }*/
-    }
-
-    private fun goToSearchFragment(searchText: String) {
-        if (searchText.isNotEmpty()) {
-            val bundle = Bundle()
-            bundle.putString("search", searchText)
-            findNavController().navigate(R.id.searchFragment, bundle)
         }
     }
 
@@ -153,9 +132,5 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                 Log.e("error", it.message.toString())
             })
         cs.add(disposable)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }
