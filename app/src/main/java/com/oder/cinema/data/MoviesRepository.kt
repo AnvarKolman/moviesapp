@@ -4,9 +4,8 @@ import com.oder.cinema.MovieModel
 import com.oder.cinema.Token
 import com.oder.cinema.data.room.MovieEntity
 import com.oder.cinema.data.room.MoviesDatabase
-import com.oder.cinema.model.Docs
+import com.oder.cinema.model.Movie
 import com.oder.cinema.model.Poster
-import com.oder.cinema.model.Rating
 import com.oder.cinema.model.Result
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
@@ -15,8 +14,9 @@ interface MoviesRepository {
     suspend fun getMovies(): List<MovieModel>
     fun findByName(movieName: String): Single<Result>
     fun findById(id: String): Single<Result>
-    fun saveDoc(docs: Docs): Completable
-    fun getAll(): Single<List<Docs>>
+    fun findTopMovies(): Single<Result>
+    fun saveDoc(movie: Movie): Completable
+    fun getAll(): Single<List<Movie>>
 }
 
 class MoviesRepositoryImpl(
@@ -26,22 +26,22 @@ class MoviesRepositoryImpl(
 
     private val token = Token().token()
 
-    override fun saveDoc(docs: Docs): Completable = moviesDatabase.movieDao().insertAll(
+    override fun saveDoc(movie: Movie): Completable = moviesDatabase.movieDao().insertAll(
         MovieEntity(
-            id = docs.id ?: 10,
-            name = wrapNull(docs.name),
-            alternativeName = wrapNull(docs.alternativeName),
-            enName = wrapNull(docs.enName),
-            year = docs.year ?: 1,
-            movieLength = docs.movieLength ?: 10,
-            description = wrapNull(docs.description),
-            imageUrl = docs.poster?.url.toString()
+            id = movie.id ?: 10,
+            name = wrapNull(movie.name),
+            alternativeName = wrapNull(movie.alternativeName),
+            enName = wrapNull(movie.enName),
+            year = movie.year ?: 1,
+            movieLength = movie.movieLength ?: 10,
+            description = wrapNull(movie.description),
+            imageUrl = movie.poster?.url.toString()
         )
     )
 
-    override fun getAll(): Single<List<Docs>> = moviesDatabase.movieDao().getAll().map {
+    override fun getAll(): Single<List<Movie>> = moviesDatabase.movieDao().getAll().map {
         it.map { entity ->
-            Docs(
+            Movie(
                 name = entity.name,
                 description = entity.description,
                 id = entity.id,
@@ -61,7 +61,7 @@ class MoviesRepositoryImpl(
         val response = moviesService.movie(token)
         //if (response.isSuccessful && response.body() != null) {
         //Log.i("NAMES ", response.body()?.docs.toString())
-        return response.body()?.docs?.map { MovieModel(it.name, it.poster?.url, null) }?.toList()
+        return response.body()?.movies?.map { MovieModel(it.name, it.poster?.url, null) }?.toList()
             ?: emptyList()
         //}
     }
@@ -72,6 +72,10 @@ class MoviesRepositoryImpl(
 
     override fun findById(id: String): Single<Result> {
         return moviesService.findById(token = token, id = id)
+    }
+
+    override fun findTopMovies(): Single<Result> {
+        return moviesService.findTopMovies(token =token)
     }
 
 }

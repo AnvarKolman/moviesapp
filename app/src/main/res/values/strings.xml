@@ -18,4 +18,5 @@
     <string name="clear_cache">Очистить кеш</string>
     <string name="kinopoisk">Кинопоиск</string>
     <string name="settings">Настройки</string>
+    <string name="main">Основной</string>
 </resources>

@@ -16,7 +16,7 @@ import com.oder.cinema.adapters.MoviesAdapter
 import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
 import com.oder.cinema.databinding.FragmentFavoriteMoviesBinding
-import com.oder.cinema.model.Docs
+import com.oder.cinema.model.Movie
 import com.oder.cinema.viewmodels.FavoriteMoviesViewModel
 import com.oder.cinema.viewmodels.FavoriteMoviesViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -61,7 +61,7 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
                 activity?.supportFragmentManager?.commit {
                     setReorderingAllowed(true)
                     val bundle = Bundle()
-                    bundle.putString(Docs::class.java.name, Gson().toJson(doc))
+                    bundle.putString(Movie::class.java.name, Gson().toJson(doc))
                     replace<MovieDetailFragment>(
                         R.id.fragmentContainerView,
                         args = bundle

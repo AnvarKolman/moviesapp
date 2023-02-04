@@ -19,7 +19,7 @@ import com.oder.cinema.adapters.MoviesAdapter
 import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
 import com.oder.cinema.databinding.FragmentSearchBinding
-import com.oder.cinema.model.Docs
+import com.oder.cinema.model.Movie
 import com.oder.cinema.viewmodels.MoviesViewModel
 import com.oder.cinema.viewmodels.MoviesViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -87,7 +87,7 @@ class SearchFragment : Fragment() {
                 activity?.supportFragmentManager?.commit {
                     setReorderingAllowed(true)
                     val bundle = Bundle()
-                    bundle.putString(Docs::class.java.name, Gson().toJson(doc))
+                    bundle.putString(Movie::class.java.name, Gson().toJson(doc))
                     findNavController().navigate(R.id.movieDetailFragment, bundle)
                 }
             }
@@ -101,7 +101,7 @@ class SearchFragment : Fragment() {
 
         _binding.searchEditText.setOnEditorActionListener { view, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
+                EditorInfo.IME_ACTION_SEARCH -> {
                     bindMovies(view.text.toString())
                     true
                 }
@@ -117,7 +117,7 @@ class SearchFragment : Fragment() {
         val single = _viewModel.findByName(movieName)
         val disposable = single.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { it.docs }
+            .map { it.movies }
             .subscribe({
                 _binding.moviesIndicator.hide()
                 if (it.size == 0) {

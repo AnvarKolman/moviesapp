@@ -11,7 +11,6 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,7 @@ import com.oder.cinema.adapters.MoviesAdapter
 import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
 import com.oder.cinema.databinding.MoviesFragmentBinding
-import com.oder.cinema.model.Docs
+import com.oder.cinema.model.Movie
 import com.oder.cinema.viewmodels.MoviesViewModel
 import com.oder.cinema.viewmodels.MoviesViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -61,12 +60,6 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context?.let { // Todo допилить
-            if (!isOnline(it)) {
-                Toast.makeText(it, "Отсутвует подключение к сети интернет", Toast.LENGTH_LONG)
-                    .show()
-            }
-        }
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onMoreBtnClick = { doc, view ->
@@ -93,7 +86,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                 activity?.supportFragmentManager?.commit {
                     setReorderingAllowed(true)
                     val bundle = Bundle()
-                    bundle.putString(Docs::class.java.name, Gson().toJson(doc))
+                    bundle.putString(Movie::class.java.name, Gson().toJson(doc))
                     findNavController().navigate(R.id.movieDetailFragment, bundle)
                 }
             }
@@ -107,27 +100,21 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
 
         _binding.searchEditText.setOnEditorActionListener { view, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
+                EditorInfo.IME_ACTION_SEARCH -> {
                     goToSearchFragment(view.text.toString())
                     true
                 }
                 else -> false
             }
         }
-        /*_binding.moviesSearchSpinner.adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.search_items_array,
-            com.google.android.material.R.layout.support_simple_spinner_dropdown_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(com.google.android.material.R.layout.support_simple_spinner_dropdown_item)
-        }*/
+        bindMovies("")
     }
 
     private fun goToSearchFragment(searchText: String) {
         if (searchText.isNotEmpty()) {
             val bundle = Bundle()
             bundle.putString("search", searchText)
-            findNavController().navigate(R.id.searchFragment, bundle)
+            findNavController().navigate(R.id.action_moviesFragment_to_searchFragment, bundle)
         }
     }
 
@@ -135,10 +122,10 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         _binding.moviesIndicator.show()
         _binding.infoTextView.visibility = View.GONE
         _moviesAdapter.setData(emptyList())
-        val single = _viewModel.findByName(movieName)
+        val single = _viewModel.findTopMovies()
         val disposable = single.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { it.docs }
+            .map { it.movies }
             .subscribe({
                 _binding.moviesIndicator.hide()
                 if (it.size == 0) {

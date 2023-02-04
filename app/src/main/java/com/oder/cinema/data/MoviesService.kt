@@ -1,6 +1,6 @@
 package com.oder.cinema.data
 
-import com.oder.cinema.model.Docs
+import com.oder.cinema.model.Movie
 import com.oder.cinema.model.Result
 import io.reactivex.rxjava3.core.Single
 import okhttp3.ResponseBody
@@ -8,7 +8,6 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.QueryName
 import retrofit2.http.Url
 
 interface MoviesService {
@@ -17,7 +16,7 @@ interface MoviesService {
     suspend fun movie(@Query(value = "token", encoded = true) token: String): Response<Result>
 
     @GET("/movie?field=year&search=2020")
-    fun movies(@Query(value = "token", encoded = true) token: String): Single<Docs>
+    fun movies(@Query(value = "token", encoded = true) token: String): Single<Movie>
 
     @GET("/person")
     suspend fun person(@Query(value = "token", encoded = false) token: String): Call<ResponseBody>
@@ -38,6 +37,13 @@ interface MoviesService {
         @Query(value = "token", encoded = true) token: String,
         @Query("field", encoded = true) field: String = "id",
         @Query("search", encoded = true) id: String
+    ): Single<Result>
+
+    @GET("/movie")
+    fun findTopMovies(
+        @Query(value = "token", encoded = true) token: String,
+        @Query("field", encoded = true) field: String = "rating.kp",
+        @Query("search", encoded = true) id: String = "8-10"
     ): Single<Result>
 
 }

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.oder.cinema.databinding.FragmentMovieDetailBinding
-import com.oder.cinema.model.Docs
+import com.oder.cinema.model.Movie
 import com.squareup.picasso.Picasso
 
 class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
@@ -26,8 +26,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val arg = arguments?.getString(Docs::class.java.name)
-        gson.fromJson(arg, Docs::class.java)?.let {
+        val arg = arguments?.getString(Movie::class.java.name)
+        gson.fromJson(arg, Movie::class.java)?.let {
             Picasso.get().load(it.poster?.url).into(_binding.movieImageView)
             _binding.movieName.text = it.name
             it.alternativeName?.let { alternativeName ->

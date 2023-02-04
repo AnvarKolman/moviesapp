@@ -8,18 +8,18 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.oder.cinema.R
-import com.oder.cinema.model.Docs
+import com.oder.cinema.model.Movie
 import com.squareup.picasso.Picasso
 import java.util.*
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
-    private val moviesList: MutableList<Docs> = LinkedList()
+    private val moviesList: MutableList<Movie> = LinkedList()
     private val picasso: Picasso = Picasso.get()
-    var onMoreBtnClick: ((Docs, View) -> Unit)? = null
-    var onDetailBtnClick: ((Docs) -> Unit)? = null
+    var onMoreBtnClick: ((Movie, View) -> Unit)? = null
+    var onDetailBtnClick: ((Movie) -> Unit)? = null
 
-    fun setData(newDocs: List<Docs>) {
+    fun setData(newDocs: List<Movie>) {
         moviesList.clear()
         moviesList.addAll(newDocs)
 

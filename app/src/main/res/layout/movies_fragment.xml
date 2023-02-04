@@ -14,7 +14,7 @@
         android:cursorVisible="true"
         android:drawableStart="@drawable/ic_baseline_search"
         android:hint="@string/movie_name_hint"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionSearch"
         android:importantForAutofill="no"
         android:inputType="text"
         android:padding="6dp"
@@ -57,6 +57,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/rating"
+        style="@style/TextViewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="8dp"
+        android:text="Фильмы с высоким рейтингом"
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
+
+    <!--TODO Несколько горизонтальных recycler по разным тематикам-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cinema_recycler"
         android:layout_width="match_parent"
@@ -64,7 +74,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movies_search_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/rating" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/movies_indicator"

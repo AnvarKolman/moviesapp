@@ -14,7 +14,7 @@
         android:cursorVisible="true"
         android:drawableStart="@drawable/ic_baseline_search"
         android:hint="@string/movie_name_hint"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionSearch"
         android:importantForAutofill="no"
         android:inputType="text"
         android:padding="6dp"
