@@ -1,4 +1,4 @@
-package com.oder.cinema
+package com.oder.cinema.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -10,11 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.oder.cinema.R
 import com.oder.cinema.adapters.MoviesAdapter
 import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
+import com.oder.cinema.ui.appComponent
 import com.oder.cinema.databinding.FragmentFavoriteMoviesBinding
 import com.oder.cinema.model.Movie
 import com.oder.cinema.viewmodels.FavoriteMoviesViewModel
@@ -62,11 +65,7 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
                     setReorderingAllowed(true)
                     val bundle = Bundle()
                     bundle.putString(Movie::class.java.name, Gson().toJson(doc))
-                    replace<MovieDetailFragment>(
-                        R.id.fragmentContainerView,
-                        args = bundle
-                    )
-                    addToBackStack("movies")
+                    findNavController().navigate(R.id.movieDetailFragment, bundle)
                 }
             }
             layoutManager = LinearLayoutManager(this@FavoriteMoviesFragment.context)

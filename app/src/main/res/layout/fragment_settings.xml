@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="20dp"
     android:orientation="vertical"
-    tools:context=".SettingsFragment">
+    tools:context=".ui.SettingsFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

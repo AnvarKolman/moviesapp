@@ -2,50 +2,42 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_nav"
-    app:startDestination="@id/moviesFragment">
-
+    android:id="@+id/moviesFragment"
+    app:startDestination="@id/MoviesFragment">
     <fragment
-        android:id="@+id/moviesFragment"
-        android:name="com.oder.cinema.MoviesFragment"
-        android:label="MoviesFragment" >
+        android:id="@+id/MoviesFragment"
+        android:name="com.oder.cinema.ui.MoviesFragment"
+        android:label="MoviesFragment"
+        tools:layout="@layout/movies_fragment">
         <action
             android:id="@+id/action_moviesFragment_to_searchFragment"
             app:destination="@id/searchFragment"
             app:enterAnim="@animator/slide_left"
-            app:popExitAnim="@animator/slide_right"
             app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/slide_right" />
         <action
             android:id="@+id/action_moviesFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/favoriteMoviesFragment"
-        android:name="com.oder.cinema.FavoriteMoviesFragment"
-        android:label="fragment_favorite_movies"
-        tools:layout="@layout/fragment_favorite_movies" />
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.oder.cinema.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.oder.cinema.SearchFragment"
+        android:name="com.oder.cinema.ui.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@animator/nav_default_pop_exit_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim" />
     </fragment>
+
     <fragment
         android:id="@+id/movieDetailFragment"
-        android:name="com.oder.cinema.MovieDetailFragment"
+        android:name="com.oder.cinema.ui.MovieDetailFragment"
         android:label="fragment_movie_detail"
         tools:layout="@layout/fragment_movie_detail" />
 </navigation>

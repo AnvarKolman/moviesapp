@@ -1,4 +1,4 @@
-package com.oder.cinema
+package com.oder.cinema.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -15,10 +15,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.oder.cinema.R
 import com.oder.cinema.adapters.MoviesAdapter
 import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
-import com.oder.cinema.databinding.MoviesFragmentBinding
+import com.oder.cinema.ui.appComponent
+import com.oder.cinema.databinding.FragmentSearchBinding
 import com.oder.cinema.model.Movie
 import com.oder.cinema.viewmodels.MoviesViewModel
 import com.oder.cinema.viewmodels.MoviesViewModelFactory
@@ -27,13 +29,10 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-
-class MoviesFragment : Fragment(R.layout.movies_fragment) {
-
+class SearchFragment : Fragment() {
 
     private val _moviesAdapter = MoviesAdapter()
-    private lateinit var _binding: MoviesFragmentBinding
-
+    private lateinit var _binding: FragmentSearchBinding
 
     private val cs: CompositeDisposable = CompositeDisposable()
 
@@ -54,12 +53,16 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = MoviesFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return _binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.getString("search")?.let {
+            _binding.searchEditText.setText(it)
+            bindMovies(it)
+        }
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onMoreBtnClick = { doc, view ->
@@ -90,31 +93,22 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                     findNavController().navigate(R.id.movieDetailFragment, bundle)
                 }
             }
-            layoutManager = LinearLayoutManager(this@MoviesFragment.context)
+            layoutManager = LinearLayoutManager(this@SearchFragment.context)
             addItemDecoration(HorizontalDividerItemDecoration(50))
             addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 10, 20))
         }
         _binding.searchBtn.setOnClickListener {
-            goToSearchFragment(_binding.searchEditText.text.toString())
+            bindMovies(_binding.searchEditText.text.toString())
         }
 
         _binding.searchEditText.setOnEditorActionListener { view, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
-                    goToSearchFragment(view.text.toString())
+                    bindMovies(view.text.toString())
                     true
                 }
                 else -> false
             }
-        }
-        bindMovies("")
-    }
-
-    private fun goToSearchFragment(searchText: String) {
-        if (searchText.isNotEmpty()) {
-            val bundle = Bundle()
-            bundle.putString("search", searchText)
-            findNavController().navigate(R.id.action_moviesFragment_to_searchFragment, bundle)
         }
     }
 
@@ -122,7 +116,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         _binding.moviesIndicator.show()
         _binding.infoTextView.visibility = View.GONE
         _moviesAdapter.setData(emptyList())
-        val single = _viewModel.findTopMovies()
+        val single = _viewModel.findByName(movieName)
         val disposable = single.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { it.movies }
@@ -140,9 +134,5 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                 Log.e("error", it.message.toString())
             })
         cs.add(disposable)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }

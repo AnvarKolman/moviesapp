@@ -2,14 +2,14 @@ package com.oder.cinema.di
 
 import android.content.Context
 import androidx.room.Room
-import com.oder.cinema.FavoriteMoviesFragment
-import com.oder.cinema.MainActivity
-import com.oder.cinema.MoviesFragment
-import com.oder.cinema.SearchFragment
+import com.oder.cinema.ui.FavoriteMoviesFragment
+import com.oder.cinema.ui.MoviesFragment
+import com.oder.cinema.ui.SearchFragment
 import com.oder.cinema.data.room.MoviesDatabase
 import com.oder.cinema.data.MoviesRepository
 import com.oder.cinema.data.MoviesRepositoryImpl
 import com.oder.cinema.data.MoviesService
+import com.oder.cinema.ui.MainActivity
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module

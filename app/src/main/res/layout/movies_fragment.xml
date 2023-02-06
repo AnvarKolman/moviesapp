@@ -63,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="8dp"
-        android:text="Фильмы с высоким рейтингом"
+        android:text="Фильмы с высоким рейтингом кинопоиска"
         app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
 
     <!--TODO Несколько горизонтальных recycler по разным тематикам-->
