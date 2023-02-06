@@ -1,4 +1,4 @@
-package com.oder.cinema.viewmodels
+package com.oder.cinema.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

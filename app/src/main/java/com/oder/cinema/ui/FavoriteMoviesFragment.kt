@@ -20,8 +20,8 @@ import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
 import com.oder.cinema.ui.appComponent
 import com.oder.cinema.databinding.FragmentFavoriteMoviesBinding
 import com.oder.cinema.model.Movie
-import com.oder.cinema.viewmodels.FavoriteMoviesViewModel
-import com.oder.cinema.viewmodels.FavoriteMoviesViewModelFactory
+import com.oder.cinema.ui.viewmodels.FavoriteMoviesViewModel
+import com.oder.cinema.ui.viewmodels.FavoriteMoviesViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject

@@ -22,8 +22,8 @@ import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
 import com.oder.cinema.ui.appComponent
 import com.oder.cinema.databinding.MoviesFragmentBinding
 import com.oder.cinema.model.Movie
-import com.oder.cinema.viewmodels.MoviesViewModel
-import com.oder.cinema.viewmodels.MoviesViewModelFactory
+import com.oder.cinema.ui.viewmodels.MoviesViewModel
+import com.oder.cinema.ui.viewmodels.MoviesViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
