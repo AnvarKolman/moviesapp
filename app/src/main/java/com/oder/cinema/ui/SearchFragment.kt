@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -86,12 +88,10 @@ class SearchFragment : Fragment() {
                 popupMenu.show()
             }
             _moviesAdapter.onDetailBtnClick = { doc ->
-                activity?.supportFragmentManager?.commit {
-                    setReorderingAllowed(true)
-                    val bundle = Bundle()
-                    bundle.putString(Movie::class.java.name, Gson().toJson(doc))
-                    findNavController().navigate(R.id.movieDetailFragment, bundle)
-                }
+                findNavController().navigate(
+                    R.id.action_searchFragment_to_movieDetailFragment,
+                    bundleOf(Movie::class.java.name to Gson().toJson(doc))
+                )
             }
             layoutManager = LinearLayoutManager(this@SearchFragment.context)
             addItemDecoration(HorizontalDividerItemDecoration(50))

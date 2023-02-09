@@ -1,12 +1,16 @@
 package com.oder.cinema.adapters
 
+import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.oder.cinema.R
 import com.oder.cinema.model.Movie
 import com.squareup.picasso.Picasso
@@ -35,7 +39,6 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         val description: TextView
         private val movieLayout: LinearLayout
         private val moreBtn: Button
-        private val detailBtn: Button
         private val autoTransition = AutoTransition()
 
         init {
@@ -55,8 +58,12 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
             moreBtn.setOnClickListener {
                 onMoreBtnClick?.invoke(moviesList[layoutPosition], it)
             }
-            detailBtn = view.findViewById(R.id.detail_btn)
-            detailBtn.setOnClickListener {
+            view.findViewById<Button>(R.id.detail_btn).setOnClickListener {
+                /*it.findNavController()
+                    .navigate(
+                        R.id.action_moviesFragment_to_movieDetailFragment,
+                        bundleOf(Movie::class.java.name to Gson().toJson(moviesList[layoutPosition]))
+                    )*/
                 onDetailBtnClick?.invoke(moviesList[layoutPosition])
             }
         }
