@@ -13,6 +13,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,11 +60,6 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         savedInstanceState: Bundle?
     ): View {
         _binding = MoviesFragmentBinding.inflate(inflater, container, false)
-        return _binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onMoreBtnClick = { doc, view ->
@@ -96,10 +92,10 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
             addItemDecoration(HorizontalDividerItemDecoration(50))
             addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 10, 20))
         }
+
         _binding.searchBtn.setOnClickListener {
             goToSearchFragment(_binding.searchEditText.text.toString())
         }
-
         _binding.searchEditText.setOnEditorActionListener { view, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
@@ -109,7 +105,15 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                 else -> false
             }
         }
-        bindMovies("")
+        return _binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _viewModel.findTopMovies()
+        _viewModel.movies.observe(viewLifecycleOwner, Observer {
+            _moviesAdapter.setData(it)
+        })
     }
 
     private fun goToSearchFragment(searchText: String) {
@@ -124,7 +128,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         _binding.moviesIndicator.show()
         _binding.infoTextView.visibility = View.GONE
         _moviesAdapter.setData(emptyList())
-        val single = _viewModel.findTopMovies()
+        /*val single = _viewModel.findTopMovies()
         val disposable = single.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { it.movies }
@@ -141,12 +145,6 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                 _binding.infoTextView.text = "Ошибка"
                 Log.e("error", it.message.toString())
             })
-        cs.add(disposable)
+        cs.add(disposable)*/
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-
 }

@@ -36,8 +36,6 @@ class SearchFragment : Fragment() {
     private val _moviesAdapter = MoviesAdapter()
     private lateinit var _binding: FragmentSearchBinding
 
-    private val cs: CompositeDisposable = CompositeDisposable()
-
     private val _viewModel: MoviesViewModel by viewModels {
         factory.create()
     }
@@ -56,11 +54,6 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return _binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         arguments?.getString("search")?.let {
             _binding.searchEditText.setText(it)
             bindMovies(it)
@@ -110,29 +103,34 @@ class SearchFragment : Fragment() {
                 else -> false
             }
         }
+        return _binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun bindMovies(movieName: String) {
-        _binding.moviesIndicator.show()
-        _binding.infoTextView.visibility = View.GONE
-        _moviesAdapter.setData(emptyList())
-        val single = _viewModel.findByName(movieName)
-        val disposable = single.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .map { it.movies }
-            .subscribe({
-                _binding.moviesIndicator.hide()
-                if (it.size == 0) {
-                    _binding.infoTextView.visibility = View.VISIBLE
-                    _binding.infoTextView.text = "Фильмы не найдены"
-                }
-                _moviesAdapter.setData(it)
-            }, {
-                _binding.moviesIndicator.hide()
-                _binding.infoTextView.visibility = View.VISIBLE
-                _binding.infoTextView.text = "Ошибка"
-                Log.e("error", it.message.toString())
-            })
-        cs.add(disposable)
+        /* _binding.moviesIndicator.show()
+         _binding.infoTextView.visibility = View.GONE
+         _moviesAdapter.setData(emptyList())
+         val single = _viewModel.findByName(movieName)
+         val disposable = single.subscribeOn(Schedulers.io())
+             .observeOn(AndroidSchedulers.mainThread())
+             .map { it.movies }
+             .subscribe({
+                 _binding.moviesIndicator.hide()
+                 if (it.size == 0) {
+                     _binding.infoTextView.visibility = View.VISIBLE
+                     _binding.infoTextView.text = "Фильмы не найдены"
+                 }
+                 _moviesAdapter.setData(it)
+             }, {
+                 _binding.moviesIndicator.hide()
+                 _binding.infoTextView.visibility = View.VISIBLE
+                 _binding.infoTextView.text = "Ошибка"
+                 Log.e("error", it.message.toString())
+             })
+         cs.add(disposable)*/
     }
 }

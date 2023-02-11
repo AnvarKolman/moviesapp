@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -48,11 +49,6 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteMoviesBinding.inflate(inflater, container, false)
-        return _binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onMoreBtnClick = { doc, view ->
@@ -72,30 +68,15 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
             addItemDecoration(HorizontalDividerItemDecoration(50))
             addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 20, 30))
         }
-        bindMovies("")
+        return _binding.root
     }
 
-    private fun bindMovies(movieName: String) {
-        //_binding.moviesIndicator.show()
-        //_binding.infoTextView.visibility = View.GONE
-        _moviesAdapter.setData(emptyList())
-        val single = _viewModel.getAll()
-        val disposable = single.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                /*_binding.moviesIndicator.hide()
-                if (it.size == 0) {
-                    _binding.infoTextView.visibility = View.VISIBLE
-                    _binding.infoTextView.text = "Фильмы не найдены"
-                }*/
-                _moviesAdapter.setData(it)
-            }, {
-                /*_binding.moviesIndicator.hide()
-                _binding.infoTextView.visibility = View.VISIBLE
-                _binding.infoTextView.text = "Ошибка"*/
-                Log.e("error", it.message.toString())
-            })
-        //cs.add(disposable)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _viewModel.fetchSavedMovies()
+        _viewModel.savedMovies.observe(viewLifecycleOwner, Observer {
+            _moviesAdapter.setData(it)
+        })
     }
 
 }
