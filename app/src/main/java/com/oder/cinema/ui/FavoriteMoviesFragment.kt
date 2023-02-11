@@ -61,7 +61,10 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
                     setReorderingAllowed(true)
                     val bundle = Bundle()
                     bundle.putString(Movie::class.java.name, Gson().toJson(doc))
-                    findNavController().navigate(R.id.movieDetailFragment, bundle)
+                    findNavController().navigate(
+                        R.id.action_favoriteMoviesFragment_to_detail,
+                        bundle
+                    )
                 }
             }
             layoutManager = LinearLayoutManager(this@FavoriteMoviesFragment.context)

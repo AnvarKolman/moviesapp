@@ -6,12 +6,12 @@
         android:icon="@drawable/ic_baseline_home"
         android:title="@string/main" />
     <item
-        android:id="@+id/favoriteMoviesFragment"
+        android:id="@+id/favorite"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite"
         android:title="Избранное" />
     <item
-        android:id="@+id/settingsFragment"
+        android:id="@+id/settings"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/settings" />

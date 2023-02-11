@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home"
     app:startDestination="@id/MoviesFragment">
+
+    <include app:graph="@navigation/detail" />
+
     <fragment
         android:id="@+id/MoviesFragment"
         android:name="com.oder.cinema.ui.MoviesFragment"
@@ -17,8 +20,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@animator/slide_right" />
         <action
-            android:id="@+id/action_moviesFragment_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment" />
+            android:id="@+id/action_moviesFragment_to_detail"
+            app:destination="@id/detail" />
     </fragment>
 
     <fragment
@@ -27,17 +30,8 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_searchFragment_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@animator/nav_default_pop_exit_anim" />
+            android:id="@+id/action_searchFragment_to_detail"
+            app:destination="@id/detail" />
     </fragment>
 
-    <fragment
-        android:id="@+id/movieDetailFragment"
-        android:name="com.oder.cinema.ui.MovieDetailFragment"
-        android:label="fragment_movie_detail"
-        tools:layout="@layout/fragment_movie_detail" />
 </navigation>

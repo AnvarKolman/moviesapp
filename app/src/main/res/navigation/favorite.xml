@@ -2,13 +2,19 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/favoriteMoviesFragment"
+    android:id="@+id/favorite"
     app:startDestination="@+id/FavoriteMoviesFragment">
+
+    <include app:graph="@navigation/detail" />
 
     <fragment
         android:id="@+id/FavoriteMoviesFragment"
         android:name="com.oder.cinema.ui.FavoriteMoviesFragment"
         android:label="fragment_favorite_movies"
-        tools:layout="@layout/fragment_favorite_movies" />
+        tools:layout="@layout/fragment_favorite_movies">
+        <action
+            android:id="@+id/action_favoriteMoviesFragment_to_detail"
+            app:destination="@id/detail" />
+    </fragment>
 
 </navigation>

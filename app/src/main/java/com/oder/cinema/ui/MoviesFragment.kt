@@ -84,7 +84,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
             }
             _moviesAdapter.onDetailBtnClick = { doc ->
                 findNavController().navigate(
-                    R.id.action_moviesFragment_to_movieDetailFragment,
+                    R.id.action_moviesFragment_to_detail,
                     bundleOf(Movie::class.java.name to Gson().toJson(doc))
                 )
             }
