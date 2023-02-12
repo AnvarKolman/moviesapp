@@ -2,7 +2,6 @@ package com.oder.cinema
 
 class Token {
 
-    //тестовый, 200 запросов в день
-    fun token() = "7BHQQ9J-ZYKMW92-HWPP233-6FABV0P"
+    fun token() = "EKR1KJH-2KY4KTP-H6M4KSB-GYMMD7S"
 
 }

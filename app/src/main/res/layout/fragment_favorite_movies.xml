@@ -7,6 +7,13 @@
     android:orientation="vertical"
     tools:context=".ui.FavoriteMoviesFragment">
 
+    <TextView
+        style="@style/TextViewHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/saved" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cinema_recycler"
         android:layout_width="match_parent"

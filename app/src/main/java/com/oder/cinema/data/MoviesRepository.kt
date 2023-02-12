@@ -6,6 +6,7 @@ import com.oder.cinema.data.room.MovieEntity
 import com.oder.cinema.data.room.MoviesDatabase
 import com.oder.cinema.model.Movie
 import com.oder.cinema.model.Poster
+import com.oder.cinema.model.Rating
 import com.oder.cinema.model.Result
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
@@ -26,18 +27,25 @@ class MoviesRepositoryImpl(
 
     private val token = Token().token()
 
-    override fun saveDoc(movie: Movie): Completable = moviesDatabase.movieDao().insertAll(
-        MovieEntity(
-            id = movie.id ?: 10,
-            name = wrapNull(movie.name),
-            alternativeName = wrapNull(movie.alternativeName),
-            enName = wrapNull(movie.enName),
-            year = movie.year ?: 1,
-            movieLength = movie.movieLength ?: 10,
-            description = wrapNull(movie.description),
-            imageUrl = movie.poster?.url.toString()
-        )
-    )
+    override fun saveDoc(movie: Movie): Completable {
+        if (movie.id != null) {
+            return moviesDatabase.movieDao().insertAll(
+                MovieEntity(
+                    id = movie.id!!,
+                    name = movie.name,
+                    alternativeName = movie.alternativeName,
+                    enName = movie.enName,
+                    year = movie.year,
+                    movieLength = movie.movieLength ?: 10,
+                    description = movie.description,
+                    imageUrl = movie.poster?.url.toString(),
+                    kinopoiskRating = movie.rating?.kp,
+                    imdbRating = movie.rating?.imdb,
+                )
+            )
+        }
+        return Completable.error(IllegalArgumentException("Movie ID is NULL"))
+    }
 
     override fun getAll(): Single<List<Movie>> = moviesDatabase.movieDao().getAll().map {
         it.map { entity ->
@@ -47,14 +55,17 @@ class MoviesRepositoryImpl(
                 id = entity.id,
                 poster = Poster(
                     url = entity.imageUrl
+                ),
+                alternativeName = entity.alternativeName,
+                enName = entity.enName,
+                movieLength = entity.movieLength,
+                year = entity.year,
+                rating = Rating(
+                    imdb = entity.imdbRating,
+                    kp = entity.kinopoiskRating
                 )
             )
         }
-    }
-
-
-    private fun wrapNull(value: String?): String {
-        return value ?: ""
     }
 
     override suspend fun getMovies(): List<MovieModel> {
@@ -75,7 +86,7 @@ class MoviesRepositoryImpl(
     }
 
     override fun findTopMovies(): Single<Result> {
-        return moviesService.findTopMovies(token =token)
+        return moviesService.findTopMovies(token = token)
     }
 
 }

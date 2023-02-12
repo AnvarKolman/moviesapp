@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -57,15 +58,10 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
                 }*/
             }
             _moviesAdapter.onDetailBtnClick = { doc ->
-                activity?.supportFragmentManager?.commit {
-                    setReorderingAllowed(true)
-                    val bundle = Bundle()
-                    bundle.putString(Movie::class.java.name, Gson().toJson(doc))
-                    findNavController().navigate(
-                        R.id.action_favoriteMoviesFragment_to_detail,
-                        bundle
-                    )
-                }
+                findNavController().navigate(
+                    R.id.action_favoriteMoviesFragment_to_detail,
+                    bundleOf(Movie::class.java.name to Gson().toJson(doc))
+                )
             }
             layoutManager = LinearLayoutManager(this@FavoriteMoviesFragment.context)
             addItemDecoration(HorizontalDividerItemDecoration(50))
