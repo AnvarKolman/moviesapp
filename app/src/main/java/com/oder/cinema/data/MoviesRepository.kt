@@ -18,6 +18,8 @@ interface MoviesRepository {
     fun findTopMovies(): Single<Result>
     fun saveDoc(movie: Movie): Completable
     fun getAll(): Single<List<Movie>>
+
+    fun deleteById(id: Int): Completable
 }
 
 class MoviesRepositoryImpl(
@@ -67,6 +69,8 @@ class MoviesRepositoryImpl(
             )
         }
     }
+
+    override fun deleteById(id: Int): Completable = moviesDatabase.movieDao().deleteById(id)
 
     override suspend fun getMovies(): List<MovieModel> {
         val response = moviesService.movie(token)

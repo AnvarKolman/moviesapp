@@ -2,8 +2,6 @@
     <string name="app_name">Cinema</string>
     <string name="movie_name_hint">Введите название фильма</string>
     <string name="find_movie">Поиск</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Поиск</string>
     <string name="saved">Избранное</string>
     <string name="more">Подробнее</string>
@@ -19,4 +17,9 @@
     <string name="kinopoisk">Кинопоиск</string>
     <string name="settings">Настройки</string>
     <string name="main">Основной</string>
+    <string name="remove">Удалить</string>
+    <string name="share">Поделиться</string>
+    <string name="add">Добавить в избранное</string>
+    <string name="empty_list">Список пуст</string>
+    <string name="movie_test_name">Законопослушный гражданин</string>
 </resources>

@@ -26,6 +26,8 @@ import com.oder.cinema.databinding.FragmentSearchBinding
 import com.oder.cinema.model.Movie
 import com.oder.cinema.ui.viewmodels.MoviesViewModel
 import com.oder.cinema.ui.viewmodels.MoviesViewModelFactory
+import com.oder.cinema.ui.viewmodels.SearchViewModel
+import com.oder.cinema.ui.viewmodels.SearchViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -36,12 +38,12 @@ class SearchFragment : Fragment() {
     private val _moviesAdapter = MoviesAdapter()
     private lateinit var _binding: FragmentSearchBinding
 
-    private val _viewModel: MoviesViewModel by viewModels {
+    private val _viewModel: SearchViewModel by viewModels {
         factory.create()
     }
 
     @Inject
-    lateinit var factory: MoviesViewModelFactory.Factory
+    lateinit var factory: SearchViewModelFactory.Factory
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,10 +56,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        arguments?.getString("search")?.let {
-            _binding.searchEditText.setText(it)
-            bindMovies(it)
-        }
+
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onMoreBtnClick = { doc, view ->
@@ -66,9 +65,7 @@ class SearchFragment : Fragment() {
                 popupMenu.setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.menu_save -> {
-                            _viewModel.saveDoc(doc).subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe { }
+                            _viewModel.saveDoc(doc)
                             return@setOnMenuItemClickListener true
                         }
                         R.id.menu_share -> {
@@ -91,13 +88,13 @@ class SearchFragment : Fragment() {
             addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 10, 20))
         }
         _binding.searchBtn.setOnClickListener {
-            bindMovies(_binding.searchEditText.text.toString())
+            _viewModel.findMovieByName(_binding.searchEditText.text.toString())
         }
 
         _binding.searchEditText.setOnEditorActionListener { view, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
-                    bindMovies(view.text.toString())
+                    _viewModel.findMovieByName(view.text.toString())
                     true
                 }
                 else -> false
@@ -108,29 +105,25 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }
+        arguments?.getString("search")?.let {
+            _binding.searchEditText.setText(it)
+            _viewModel.findMovieByName(it)
+        }
+        _viewModel.movies.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                _binding.infoTextView.visibility = View.VISIBLE
+            } else {
+                _binding.infoTextView.visibility = View.GONE
+                _moviesAdapter.setData(it)
+            }
+        }
+        _viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) {
+                _binding.moviesIndicator.hide()
+            } else {
+                _binding.moviesIndicator.show()
+            }
+        }
 
-    private fun bindMovies(movieName: String) {
-        /* _binding.moviesIndicator.show()
-         _binding.infoTextView.visibility = View.GONE
-         _moviesAdapter.setData(emptyList())
-         val single = _viewModel.findByName(movieName)
-         val disposable = single.subscribeOn(Schedulers.io())
-             .observeOn(AndroidSchedulers.mainThread())
-             .map { it.movies }
-             .subscribe({
-                 _binding.moviesIndicator.hide()
-                 if (it.size == 0) {
-                     _binding.infoTextView.visibility = View.VISIBLE
-                     _binding.infoTextView.text = "Фильмы не найдены"
-                 }
-                 _moviesAdapter.setData(it)
-             }, {
-                 _binding.moviesIndicator.hide()
-                 _binding.infoTextView.visibility = View.VISIBLE
-                 _binding.infoTextView.text = "Ошибка"
-                 Log.e("error", it.message.toString())
-             })
-         cs.add(disposable)*/
     }
 }

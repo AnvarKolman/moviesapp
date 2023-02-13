@@ -2,6 +2,7 @@ package com.oder.cinema.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.oder.cinema.data.MoviesRepository
 import com.oder.cinema.model.Movie
@@ -12,13 +13,27 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.Flow.Subscriber
 
 class FavoriteMoviesViewModel(
-    private val moviesRepository: MoviesRepository //TODO localRepo
+    private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
     private val moviesList = MutableLiveData<List<Movie>>()
     val savedMovies: LiveData<List<Movie>>
         get() = moviesList
     private val cs = CompositeDisposable()
+
+
+    fun removeMovie(movie: Movie) {
+        movie.id?.let {
+            moviesRepository.deleteById(it).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    fetchSavedMovies()
+                }, {
+
+                })
+        }
+
+    }
 
     fun fetchSavedMovies() {
         val result = moviesRepository.getAll().subscribeOn(Schedulers.io())

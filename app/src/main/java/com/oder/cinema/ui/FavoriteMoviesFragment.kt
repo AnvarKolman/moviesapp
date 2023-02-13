@@ -2,16 +2,14 @@ package com.oder.cinema.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -19,13 +17,10 @@ import com.oder.cinema.R
 import com.oder.cinema.adapters.MoviesAdapter
 import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
-import com.oder.cinema.ui.appComponent
 import com.oder.cinema.databinding.FragmentFavoriteMoviesBinding
 import com.oder.cinema.model.Movie
 import com.oder.cinema.ui.viewmodels.FavoriteMoviesViewModel
 import com.oder.cinema.ui.viewmodels.FavoriteMoviesViewModelFactory
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -45,17 +40,28 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteMoviesBinding.inflate(inflater, container, false)
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
-            _moviesAdapter.onMoreBtnClick = { doc, view ->
-                /*if (isPressed) {
-
-                }*/
+            _moviesAdapter.onMoreBtnClick = { movie, view ->
+                val popupMenu = PopupMenu(context, view)
+                popupMenu.inflate(R.menu.favorite_more_menu)
+                popupMenu.setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.remove_item -> {
+                            _viewModel.removeMovie(movie)
+                            return@setOnMenuItemClickListener true
+                        }
+                        R.id.share_item -> {
+                            Toast.makeText(context, "В разработке", Toast.LENGTH_SHORT).show()
+                            return@setOnMenuItemClickListener true
+                        }
+                        else -> return@setOnMenuItemClickListener false
+                    }
+                }
+                popupMenu.show()
             }
             _moviesAdapter.onDetailBtnClick = { doc ->
                 findNavController().navigate(
@@ -73,9 +79,14 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _viewModel.fetchSavedMovies()
-        _viewModel.savedMovies.observe(viewLifecycleOwner, Observer {
-            _moviesAdapter.setData(it)
-        })
+        _viewModel.savedMovies.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                _binding.emptyText.visibility = View.VISIBLE
+            } else {
+                _moviesAdapter.setData(it)
+                _binding.emptyText.visibility = View.GONE
+            }
+        }
     }
 
 }

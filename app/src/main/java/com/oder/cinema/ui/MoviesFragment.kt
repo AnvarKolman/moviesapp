@@ -62,15 +62,13 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         _binding = MoviesFragmentBinding.inflate(inflater, container, false)
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
-            _moviesAdapter.onMoreBtnClick = { doc, view ->
+            _moviesAdapter.onMoreBtnClick = { movie, view ->
                 val popupMenu = PopupMenu(context, view)
                 popupMenu.inflate(R.menu.more_menu)
                 popupMenu.setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.menu_save -> {
-                            _viewModel.saveDoc(doc).subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe { }
+                            _viewModel.saveDoc(movie)
                             return@setOnMenuItemClickListener true
                         }
                         R.id.menu_share -> {
@@ -82,10 +80,10 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                 }
                 popupMenu.show()
             }
-            _moviesAdapter.onDetailBtnClick = { doc ->
+            _moviesAdapter.onDetailBtnClick = { movie ->
                 findNavController().navigate(
                     R.id.action_moviesFragment_to_detail,
-                    bundleOf(Movie::class.java.name to Gson().toJson(doc))
+                    bundleOf(Movie::class.java.name to Gson().toJson(movie))
                 )
             }
             layoutManager = LinearLayoutManager(this@MoviesFragment.context)
@@ -111,40 +109,29 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _viewModel.findTopMovies()
-        _viewModel.movies.observe(viewLifecycleOwner, Observer {
-            _moviesAdapter.setData(it)
-        })
+        _viewModel.movies.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                _binding.infoTextView.visibility = View.VISIBLE
+            } else {
+                _binding.infoTextView.visibility = View.GONE
+                _moviesAdapter.setData(it)
+            }
+        }
+        _viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) {
+                _binding.moviesIndicator.hide()
+            } else {
+                _binding.moviesIndicator.show()
+            }
+        }
     }
 
     private fun goToSearchFragment(searchText: String) {
         if (searchText.isNotEmpty()) {
-            val bundle = Bundle()
-            bundle.putString("search", searchText)
-            findNavController().navigate(R.id.action_moviesFragment_to_searchFragment, bundle)
+            findNavController().navigate(
+                R.id.action_moviesFragment_to_searchFragment,
+                bundleOf("search" to searchText)
+            )
         }
-    }
-
-    private fun bindMovies(movieName: String) {
-        _binding.moviesIndicator.show()
-        _binding.infoTextView.visibility = View.GONE
-        _moviesAdapter.setData(emptyList())
-        /*val single = _viewModel.findTopMovies()
-        val disposable = single.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .map { it.movies }
-            .subscribe({
-                _binding.moviesIndicator.hide()
-                if (it.size == 0) {
-                    _binding.infoTextView.visibility = View.VISIBLE
-                    _binding.infoTextView.text = "Фильмы не найдены"
-                }
-                _moviesAdapter.setData(it)
-            }, {
-                _binding.moviesIndicator.hide()
-                _binding.infoTextView.visibility = View.VISIBLE
-                _binding.infoTextView.text = "Ошибка"
-                Log.e("error", it.message.toString())
-            })
-        cs.add(disposable)*/
     }
 }

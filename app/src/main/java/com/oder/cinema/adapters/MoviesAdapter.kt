@@ -37,8 +37,8 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         val imdbRating: TextView
         val kinopoiskRationg: TextView
         val description: TextView
-        private val movieLayout: LinearLayout
-        private val moreBtn: Button
+        /*private val movieLayout: LinearLayout
+        private val moreBtn: Button*/
         private val autoTransition = AutoTransition()
 
         init {
@@ -48,24 +48,23 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
             imdbRating = view.findViewById(R.id.rating_imdb)
             kinopoiskRationg = view.findViewById(R.id.rating_kinopoisk)
             description = view.findViewById(R.id.description)
-            movieLayout = view.findViewById(R.id.movie_layout)
-            movieLayout.setOnClickListener {
-                val v = if (description.visibility == View.GONE) View.VISIBLE else View.GONE
+            view.findViewById<LinearLayout>(R.id.movie_layout).setOnClickListener {
+                /*val v = if (description.visibility == View.GONE) View.VISIBLE else View.GONE
                 TransitionManager.beginDelayedTransition(movieLayout, autoTransition)
-                v.also { description.visibility = it }
+                v.also { description.visibility = it }*/
+                onDetailBtnClick?.invoke(moviesList[layoutPosition])
             }
-            moreBtn = view.findViewById(R.id.favorite_btn)
-            moreBtn.setOnClickListener {
+            view.findViewById<Button>(R.id.favorite_btn)?.setOnClickListener {
                 onMoreBtnClick?.invoke(moviesList[layoutPosition], it)
             }
-            view.findViewById<Button>(R.id.detail_btn).setOnClickListener {
+            /*view.findViewById<Button>(R.id.movie_layout).setOnClickListener {
                 /*it.findNavController()
                     .navigate(
                         R.id.action_moviesFragment_to_movieDetailFragment,
                         bundleOf(Movie::class.java.name to Gson().toJson(moviesList[layoutPosition]))
                     )*/
                 onDetailBtnClick?.invoke(moviesList[layoutPosition])
-            }
+            }*/
         }
     }
 
@@ -82,8 +81,10 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         holder.imdbRating.text = movie.rating?.imdb.toString()
         holder.kinopoiskRationg.text = movie.rating?.kp.toString()
         holder.description.text = movie.shortDescription
-        movie.poster?.url?.let {
-            picasso.load(it).into(holder.imageView);
+        if (movie.poster?.previewUrl != null) {
+            picasso.load(movie.poster?.previewUrl).into(holder.imageView);
+        } else {
+            picasso.load(movie.poster?.url).into(holder.imageView);
         }
     }
 

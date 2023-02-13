@@ -42,14 +42,15 @@
 
                     <TextView
                         android:id="@+id/movieName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignStart="@+id/favorite_btn"
                         android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/favorite_btn"
+                        android:ellipsize="end"
                         android:padding="6dp"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        tools:text="Movie Name" />
+                        tools:text="@string/movie_test_name" />
 
                     <Button
                         android:id="@+id/favorite_btn"
@@ -58,8 +59,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginHorizontal="10dp"
                         android:background="@drawable/ic_baseline_more_horiz"
-                        android:textOff=""
-                        android:textOn="" />
+                        android:contentDescription="@string/add" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -119,15 +119,6 @@
                         android:layout_below="@+id/rating_imdb"
                         android:text="@string/unknown" />
                 </RelativeLayout>
-
-                <Button
-                    android:id="@+id/detail_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="10dp"
-                    android:text="@string/more"
-                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
 

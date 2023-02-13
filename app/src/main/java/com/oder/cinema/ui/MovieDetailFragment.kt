@@ -15,6 +15,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     private lateinit var _binding: FragmentMovieDetailBinding
     private val gson = Gson()
+    private val picasso = Picasso.get()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,14 +23,9 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
-        return _binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         val arg = arguments?.getString(Movie::class.java.name)
         gson.fromJson(arg, Movie::class.java)?.let {
-            Picasso.get().load(it.poster?.url).into(_binding.movieImageView)
+            picasso.load(it.poster?.url).into(_binding.movieImageView)
             _binding.movieName.text = it.name
             it.alternativeName?.let { alternativeName ->
                 _binding.alternativeName.text = alternativeName
@@ -43,6 +39,11 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             _binding.time.text = it.movieLength.toString()
             _binding.ratingTextView.text = it.rating?.imdb.toString()
         }
+        return _binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
 }

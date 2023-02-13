@@ -12,4 +12,13 @@
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">#E8FFFEFE</item>
     </style>
+
+    <style name="SearchEditText" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/background_line</item>
+        <item name="android:imeOptions">actionSearch</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textColorHint">#8D6E63</item>
+        <item name="android:layout_height">48dp</item>
+    </style>
 </resources>

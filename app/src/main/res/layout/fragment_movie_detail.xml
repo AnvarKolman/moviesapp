@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="30dp"
-        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_baseline_local_movies"
         tools:ignore="ContentDescription" />
 

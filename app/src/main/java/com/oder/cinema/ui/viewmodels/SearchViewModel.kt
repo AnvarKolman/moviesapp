@@ -14,6 +14,7 @@ class SearchViewModel(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
+    val isLoading = MutableLiveData<Boolean>()
     private val movieList = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>>
         get() = movieList
@@ -23,13 +24,17 @@ class SearchViewModel(
     fun saveDoc(movie: Movie): Completable = moviesRepository.saveDoc(movie)
 
     fun findMovieByName(movieName: String) {
+        isLoading.value = false
         val result = moviesRepository.findByName(movieName).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { it.movies }
             .subscribe({
+                isLoading.value = true
                 movieList.postValue(it)
             }, {
+                isLoading.value = true
             })
+        dispose.add(result)
     }
 
     override fun onCleared() {

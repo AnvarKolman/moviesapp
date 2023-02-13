@@ -7,16 +7,13 @@
 
     <EditText
         android:id="@+id/search_edit_text"
+        style="@style/SearchEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:background="@drawable/background_line"
-        android:cursorVisible="true"
         android:drawableStart="@drawable/ic_baseline_search"
         android:hint="@string/movie_name_hint"
         android:imeOptions="actionSearch"
         android:importantForAutofill="no"
-        android:inputType="text"
         android:padding="6dp"
         android:singleLine="true"
         app:layout_constraintEnd_toStartOf="@id/search_btn"
@@ -25,10 +22,11 @@
 
     <Button
         android:id="@+id/search_btn"
-        style="?attr/materialButtonOutlinedStyle"
+        style="?attr/materialIconButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
         android:text="@string/search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_edit_text"

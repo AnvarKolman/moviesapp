@@ -19,6 +19,9 @@ interface MoviesDao {
 
     @Delete
     fun delete(user: MovieEntity): Completable
+    
+    @Query("DELETE FROM $TABLE_NAME WHERE id = :id")
+    fun deleteById(id: Int): Completable
 
     @Query("DELETE FROM $TABLE_NAME")
     fun deleteAll(): Completable
