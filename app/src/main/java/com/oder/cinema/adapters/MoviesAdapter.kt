@@ -1,25 +1,27 @@
 package com.oder.cinema.adapters
 
-import android.os.Bundle
 import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.oder.cinema.R
 import com.oder.cinema.model.Movie
-import com.squareup.picasso.Picasso
 import java.util.*
 
-class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
+class MoviesAdapter(
+    private val requestManager: RequestManager,
+    private val imageCaching: Boolean = false,
+) :
+    RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
     private val moviesList: MutableList<Movie> = LinkedList()
-    private val picasso: Picasso = Picasso.get()
     var onMoreBtnClick: ((Movie, View) -> Unit)? = null
     var onDetailBtnClick: ((Movie) -> Unit)? = null
 
@@ -37,6 +39,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         val imdbRating: TextView
         val kinopoiskRationg: TextView
         val description: TextView
+
         /*private val movieLayout: LinearLayout
         private val moreBtn: Button*/
         private val autoTransition = AutoTransition()
@@ -82,12 +85,23 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         holder.kinopoiskRationg.text = movie.rating?.kp.toString()
         holder.description.text = movie.shortDescription
         if (movie.poster?.previewUrl != null) {
-            picasso.load(movie.poster?.previewUrl).into(holder.imageView);
+            holder.imageView.loadImage(movie.poster?.previewUrl)
         } else {
-            picasso.load(movie.poster?.url).into(holder.imageView);
+            requestManager.load(movie.poster?.url).into(holder.imageView)
         }
     }
 
     override fun getItemCount(): Int = moviesList.count()
 
+    private fun ImageView.loadImage(url: String?) {
+        if (imageCaching) {
+            requestManager.load(url)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into(this)
+        } else {
+            requestManager.load(url).into(this)
+        }
+    }
+
 }
+
