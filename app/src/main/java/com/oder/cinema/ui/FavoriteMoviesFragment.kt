@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.google.gson.Gson
 import com.oder.cinema.R
 import com.oder.cinema.adapters.MoviesAdapter
@@ -26,8 +28,9 @@ import javax.inject.Inject
 
 class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
 
-    private val _moviesAdapter = MoviesAdapter()
+    private lateinit var _moviesAdapter: MoviesAdapter
     private lateinit var _binding: FragmentFavoriteMoviesBinding
+    private lateinit var requestManager: RequestManager
 
     private val _viewModel: FavoriteMoviesViewModel by viewModels { factory.create() }
 
@@ -43,6 +46,8 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteMoviesBinding.inflate(inflater, container, false)
+        requestManager = Glide.with(requireContext())
+        _moviesAdapter = MoviesAdapter(requestManager, true)
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onMoreBtnClick = { movie, view ->

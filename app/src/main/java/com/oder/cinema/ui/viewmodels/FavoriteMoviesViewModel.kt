@@ -39,7 +39,7 @@ class FavoriteMoviesViewModel(
         val result = moviesRepository.getAll().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                moviesList.postValue(it)
+                moviesList.value = it
             }, {
                 //TODO
             })

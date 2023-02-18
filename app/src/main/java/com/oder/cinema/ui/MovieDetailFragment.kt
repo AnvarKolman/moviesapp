@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.google.gson.Gson
 import com.oder.cinema.R
 import com.oder.cinema.databinding.FragmentMovieDetailBinding
 import com.oder.cinema.model.Movie
-import com.squareup.picasso.Picasso
 
 class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     private lateinit var _binding: FragmentMovieDetailBinding
     private val gson = Gson()
-    private val picasso = Picasso.get()
+    private lateinit var requestManager: RequestManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,9 +24,10 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
+        requestManager = Glide.with(requireContext())
         val arg = arguments?.getString(Movie::class.java.name)
         gson.fromJson(arg, Movie::class.java)?.let {
-            picasso.load(it.poster?.url).into(_binding.movieImageView)
+            requestManager.load(it.poster?.url).into(_binding.movieImageView)
             _binding.movieName.text = it.name
             it.alternativeName?.let { alternativeName ->
                 _binding.alternativeName.text = alternativeName

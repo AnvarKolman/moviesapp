@@ -16,6 +16,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.google.gson.Gson
 import com.oder.cinema.R
 import com.oder.cinema.adapters.MoviesAdapter
@@ -35,8 +37,9 @@ import javax.inject.Inject
 
 class SearchFragment : Fragment() {
 
-    private val _moviesAdapter = MoviesAdapter()
+    private lateinit var _moviesAdapter: MoviesAdapter
     private lateinit var _binding: FragmentSearchBinding
+    private lateinit var requestManager: RequestManager
 
     private val _viewModel: SearchViewModel by viewModels {
         factory.create()
@@ -56,7 +59,8 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-
+        requestManager = Glide.with(requireContext())
+        _moviesAdapter = MoviesAdapter(requestManager)
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onMoreBtnClick = { doc, view ->
