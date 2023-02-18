@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.gson.Gson
 import com.oder.cinema.R
 import com.oder.cinema.databinding.FragmentMovieDetailBinding
@@ -27,7 +30,9 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         requestManager = Glide.with(requireContext())
         val arg = arguments?.getString(Movie::class.java.name)
         gson.fromJson(arg, Movie::class.java)?.let {
-            requestManager.load(it.poster?.url).into(_binding.movieImageView)
+
+            _binding.movieImageView.loadImage(it.poster?.url)
+
             _binding.movieName.text = it.name
             it.alternativeName?.let { alternativeName ->
                 _binding.alternativeName.text = alternativeName
@@ -46,6 +51,14 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun ImageView.loadImage(url: String?) {
+        requestManager.load(url)
+            .fallback(R.drawable.ic_baseline_local_movies)
+            .error(R.drawable.ic_baseline_local_movies)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(this)
     }
 
 }

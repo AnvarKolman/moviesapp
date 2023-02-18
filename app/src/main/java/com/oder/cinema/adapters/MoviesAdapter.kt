@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.oder.cinema.R
 import com.oder.cinema.model.Movie
 import java.util.*
@@ -97,9 +98,16 @@ class MoviesAdapter(
         if (imageCaching) {
             requestManager.load(url)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .fallback(R.drawable.ic_baseline_local_movies)
+                .error(R.drawable.ic_baseline_local_movies)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
         } else {
-            requestManager.load(url).into(this)
+            requestManager.load(url)
+                .fallback(R.drawable.ic_baseline_local_movies)
+                .error(R.drawable.ic_baseline_local_movies)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(this)
         }
     }
 
