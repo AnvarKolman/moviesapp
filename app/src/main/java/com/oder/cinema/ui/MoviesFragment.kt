@@ -39,7 +39,6 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
     private val _moviesAdapter = MoviesAdapter()
     private lateinit var _binding: MoviesFragmentBinding
 
-
     private val cs: CompositeDisposable = CompositeDisposable()
 
     private val _viewModel: MoviesViewModel by viewModels {

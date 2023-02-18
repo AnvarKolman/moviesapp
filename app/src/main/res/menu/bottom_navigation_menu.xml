@@ -9,7 +9,7 @@
         android:id="@+id/favorite"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite"
-        android:title="Избранное" />
+        android:title="@string/saved" />
     <item
         android:id="@+id/settings"
         android:enabled="true"

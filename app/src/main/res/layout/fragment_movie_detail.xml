@@ -123,6 +123,4 @@
             android:justificationMode="inter_word"
             android:textSize="16sp" />
     </ScrollView>
-
-
 </LinearLayout>
