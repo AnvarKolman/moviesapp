@@ -90,6 +90,9 @@ dependencies {
     //dagger
     implementation 'com.google.dagger:dagger:2.44.2'
     kapt 'com.google.dagger:dagger-compiler:2.44.2'
+
+    //leakcanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 }
 
 kapt {
