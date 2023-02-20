@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="8dp"
-        android:text="Фильмы с высоким рейтингом кинопоиска"
+        android:text="@string/top_rating"
         app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
 
     <!--TODO Несколько горизонтальных recycler по разным тематикам-->
@@ -69,7 +69,9 @@
         android:id="@+id/cinema_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rating" />

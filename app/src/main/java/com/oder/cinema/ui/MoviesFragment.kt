@@ -42,8 +42,6 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
     private lateinit var _binding: MoviesFragmentBinding
     private lateinit var requestManager: RequestManager
 
-    private val cs: CompositeDisposable = CompositeDisposable()
-
     private val _viewModel: MoviesViewModel by viewModels {
         factory.create()
     }
@@ -138,4 +136,5 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
             )
         }
     }
+
 }

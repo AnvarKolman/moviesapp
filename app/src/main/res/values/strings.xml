@@ -22,4 +22,5 @@
     <string name="add">Добавить в избранное</string>
     <string name="empty_list">Список пуст</string>
     <string name="movie_test_name">Законопослушный гражданин</string>
+    <string name="top_rating">Фильмы с высоким рейтингом кинопоиска</string>
 </resources>
