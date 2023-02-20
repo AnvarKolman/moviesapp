@@ -1,6 +1,5 @@
 package com.oder.cinema.data
 
-import com.oder.cinema.MovieModel
 import com.oder.cinema.Token
 import com.oder.cinema.data.room.MovieEntity
 import com.oder.cinema.data.room.MoviesDatabase
@@ -12,7 +11,6 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 interface MoviesRepository {
-    suspend fun getMovies(): List<MovieModel>
     fun findByName(movieName: String): Single<Result>
     fun findById(id: String): Single<Result>
     fun findTopMovies(): Single<Result>
@@ -72,14 +70,6 @@ class MoviesRepositoryImpl(
 
     override fun deleteById(id: Int): Completable = moviesDatabase.movieDao().deleteById(id)
 
-    override suspend fun getMovies(): List<MovieModel> {
-        val response = moviesService.movie(token)
-        //if (response.isSuccessful && response.body() != null) {
-        //Log.i("NAMES ", response.body()?.docs.toString())
-        return response.body()?.movies?.map { MovieModel(it.name, it.poster?.url, null) }?.toList()
-            ?: emptyList()
-        //}
-    }
 
     override fun findByName(movieName: String): Single<Result> {
         return moviesService.findByName(token = token, name = movieName)

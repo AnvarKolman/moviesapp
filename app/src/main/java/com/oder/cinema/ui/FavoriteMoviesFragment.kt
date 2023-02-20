@@ -16,9 +16,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.google.gson.Gson
 import com.oder.cinema.R
-import com.oder.cinema.adapters.MoviesAdapter
-import com.oder.cinema.adapters.decorations.GroupVerticalItemDecoration
-import com.oder.cinema.adapters.decorations.HorizontalDividerItemDecoration
+import com.oder.cinema.ui.adapters.MoviesAdapter
+import com.oder.cinema.ui.adapters.decorations.GroupVerticalItemDecoration
+import com.oder.cinema.ui.adapters.decorations.HorizontalDividerItemDecoration
 import com.oder.cinema.databinding.FragmentFavoriteMoviesBinding
 import com.oder.cinema.model.Movie
 import com.oder.cinema.ui.viewmodels.FavoriteMoviesViewModel

@@ -1,4 +1,4 @@
-package com.oder.cinema.adapters
+package com.oder.cinema.ui.adapters
 
 import android.transition.AutoTransition
 import android.view.LayoutInflater

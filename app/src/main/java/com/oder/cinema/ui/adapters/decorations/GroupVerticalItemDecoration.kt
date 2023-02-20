@@ -1,4 +1,4 @@
-package com.oder.cinema.adapters.decorations
+package com.oder.cinema.ui.adapters.decorations
 
 import android.graphics.Rect
 import android.view.View
