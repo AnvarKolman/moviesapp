@@ -27,17 +27,22 @@ class MoviesViewModel(
 
     private val dispose = CompositeDisposable()
 
+    init {
+        findTopMovies()
+    }
+
     fun saveDoc(movie: Movie) {
-        moviesRepository.saveDoc(movie).subscribeOn(Schedulers.io())
+        val disposable = moviesRepository.saveDoc(movie).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 Log.i("Movie saved", "Movie saved")
             }, {
 
             })
+        dispose.add(disposable)
     }
 
-    fun findTopMovies() {
+    private fun findTopMovies() {
         isLoading.value = false
         val result = moviesRepository.findTopMovies().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

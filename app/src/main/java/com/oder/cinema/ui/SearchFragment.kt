@@ -2,7 +2,6 @@ package com.oder.cinema.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,28 +10,20 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.google.gson.Gson
 import com.oder.cinema.R
+import com.oder.cinema.databinding.FragmentSearchBinding
+import com.oder.cinema.model.Movie
 import com.oder.cinema.ui.adapters.MoviesAdapter
 import com.oder.cinema.ui.adapters.decorations.GroupVerticalItemDecoration
 import com.oder.cinema.ui.adapters.decorations.HorizontalDividerItemDecoration
-import com.oder.cinema.ui.appComponent
-import com.oder.cinema.databinding.FragmentSearchBinding
-import com.oder.cinema.model.Movie
-import com.oder.cinema.ui.viewmodels.MoviesViewModel
-import com.oder.cinema.ui.viewmodels.MoviesViewModelFactory
 import com.oder.cinema.ui.viewmodels.SearchViewModel
 import com.oder.cinema.ui.viewmodels.SearchViewModelFactory
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class SearchFragment : Fragment() {

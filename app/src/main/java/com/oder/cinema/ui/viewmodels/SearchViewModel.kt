@@ -25,7 +25,7 @@ class SearchViewModel(
 
     fun findMovieByName(movieName: String) {
         isLoading.value = false
-        val result = moviesRepository.findByName(movieName).subscribeOn(Schedulers.io())
+        val disposable = moviesRepository.findByName(movieName).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { it.movies }
             .subscribe({
@@ -34,7 +34,7 @@ class SearchViewModel(
             }, {
                 isLoading.value = true
             })
-        dispose.add(result)
+        dispose.add(disposable)
     }
 
     override fun onCleared() {

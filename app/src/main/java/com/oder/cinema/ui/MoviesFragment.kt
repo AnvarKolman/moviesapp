@@ -110,7 +110,6 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _viewModel.findTopMovies()
         _viewModel.movies.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 _binding.infoTextView.visibility = View.VISIBLE
