@@ -62,36 +62,8 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         _binding = MoviesFragmentBinding.inflate(inflater, container, false)
         requestManager = Glide.with(requireContext())
         _moviesAdapter = MoviesAdapter(requestManager)
-        with(_binding.cinemaRecycler) {
-            adapter = _moviesAdapter
-            _moviesAdapter.onMoreBtnClick = { movie, view ->
-                val popupMenu = PopupMenu(context, view)
-                popupMenu.inflate(R.menu.more_menu)
-                popupMenu.setOnMenuItemClickListener {
-                    when (it.itemId) {
-                        R.id.menu_save -> {
-                            _viewModel.saveDoc(movie)
-                            return@setOnMenuItemClickListener true
-                        }
-                        R.id.menu_share -> {
-                            Toast.makeText(context, "В разработке", Toast.LENGTH_SHORT).show()
-                            return@setOnMenuItemClickListener true
-                        }
-                        else -> return@setOnMenuItemClickListener false
-                    }
-                }
-                popupMenu.show()
-            }
-            _moviesAdapter.onDetailBtnClick = { movie ->
-                findNavController().navigate(
-                    R.id.action_moviesFragment_to_detail,
-                    bundleOf(Movie::class.java.name to Gson().toJson(movie))
-                )
-            }
-            layoutManager = LinearLayoutManager(this@MoviesFragment.context)
-            addItemDecoration(HorizontalDividerItemDecoration(50))
-            addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 10, 20))
-        }
+
+        bindRecycler()
 
         _binding.searchBtn.setOnClickListener {
             goToSearchFragment(_binding.searchEditText.text.toString())
@@ -133,6 +105,39 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
                 R.id.action_moviesFragment_to_searchFragment,
                 bundleOf("search" to searchText)
             )
+        }
+    }
+
+    private fun bindRecycler() {
+        with(_binding.cinemaRecycler) {
+            adapter = _moviesAdapter
+            _moviesAdapter.onMoreBtnClick = { movie, view ->
+                val popupMenu = PopupMenu(context, view)
+                popupMenu.inflate(R.menu.more_menu)
+                popupMenu.setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menu_save -> {
+                            _viewModel.saveDoc(movie)
+                            return@setOnMenuItemClickListener true
+                        }
+                        R.id.menu_share -> {
+                            Toast.makeText(context, "В разработке", Toast.LENGTH_SHORT).show()
+                            return@setOnMenuItemClickListener true
+                        }
+                        else -> return@setOnMenuItemClickListener false
+                    }
+                }
+                popupMenu.show()
+            }
+            _moviesAdapter.onDetailBtnClick = { movie ->
+                findNavController().navigate(
+                    R.id.action_moviesFragment_to_detail,
+                    bundleOf(Movie::class.java.name to Gson().toJson(movie))
+                )
+            }
+            layoutManager = LinearLayoutManager(this@MoviesFragment.context)
+            addItemDecoration(HorizontalDividerItemDecoration(50))
+            addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 6, 14))
         }
     }
 

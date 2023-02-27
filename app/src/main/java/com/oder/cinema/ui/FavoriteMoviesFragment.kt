@@ -30,7 +30,7 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
 
     private lateinit var _moviesAdapter: MoviesAdapter
     private lateinit var _binding: FragmentFavoriteMoviesBinding
-    private lateinit var requestManager: RequestManager
+    private lateinit var _requestManager: RequestManager
 
     private val _viewModel: FavoriteMoviesViewModel by viewModels { factory.create() }
 
@@ -46,8 +46,28 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteMoviesBinding.inflate(inflater, container, false)
-        requestManager = Glide.with(requireContext())
-        _moviesAdapter = MoviesAdapter(requestManager, true)
+        _requestManager = Glide.with(requireContext())
+        _moviesAdapter = MoviesAdapter(_requestManager, true)
+
+        bindRecycler()
+
+        return _binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _viewModel.fetchSavedMovies()
+        _viewModel.savedMovies.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                _binding.emptyText.visibility = View.VISIBLE
+            } else {
+                _moviesAdapter.setData(it)
+                _binding.emptyText.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun bindRecycler() {
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onMoreBtnClick = { movie, view ->
@@ -76,21 +96,7 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
             }
             layoutManager = LinearLayoutManager(this@FavoriteMoviesFragment.context)
             addItemDecoration(HorizontalDividerItemDecoration(50))
-            addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 20, 30))
-        }
-        return _binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        _viewModel.fetchSavedMovies()
-        _viewModel.savedMovies.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                _binding.emptyText.visibility = View.VISIBLE
-            } else {
-                _moviesAdapter.setData(it)
-                _binding.emptyText.visibility = View.GONE
-            }
+            addItemDecoration(GroupVerticalItemDecoration(R.layout.movies_row_item, 6, 14))
         }
     }
 
