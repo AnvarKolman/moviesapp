@@ -24,4 +24,7 @@
     <string name="movie_test_name">Законопослушный гражданин</string>
     <string name="top_rating">Фильмы с высоким рейтингом кинопоиска</string>
     <string name="description">Описание</string>
+    <string name="profile">Профиль</string>
+    <string name="help">Помощь</string>
+    <string name="log_out">Выход</string>
 </resources>

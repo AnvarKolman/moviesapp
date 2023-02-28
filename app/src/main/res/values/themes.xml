@@ -13,6 +13,22 @@
         <item name="android:popupBackground">#E8FFFEFE</item>
     </style>
 
+    <style name="MenuTextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#040402</item>
+        <item name="android:layout_marginStart">4dp</item>
+    </style>
+
+    <style name="SettingsLayout">
+        <item name="android:elevation">4dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:paddingVertical">12dp</item>
+        <item name="android:layout_marginVertical">4dp</item>
+        <item name="android:layout_marginHorizontal">2dp</item>
+        <item name="android:background">@drawable/white_shape</item>
+    </style>
+
     <style name="SearchEditText" parent="@android:style/Widget.EditText">
         <item name="android:background">@drawable/background_line</item>
         <item name="android:imeOptions">actionSearch</item>
