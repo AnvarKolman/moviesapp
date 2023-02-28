@@ -59,9 +59,9 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         }
 
         //TODO imageZoom
-        _binding.image.setOnClickListener {
+        /*_binding.image.setOnClickListener {
             zoomImageFromThumb(_binding.expandedImage, R.drawable.ic_baseline_local_movies)
-        }
+        }*/
         shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
 
         return _binding.root
@@ -79,7 +79,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             .into(this)
     }
 
-    private fun zoomImageFromThumb(thumbView: View, imageResId: Int) {
+    /*private fun zoomImageFromThumb(thumbView: View, imageResId: Int) {
         // If there's an animation in progress, cancel it
         // immediately and proceed with this one.
         currentAnimator?.cancel()
@@ -227,6 +227,6 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
                 start()
             }
         }
-    }
+    }*/
 
 }

@@ -12,7 +12,7 @@
     <string name="mail_example">user@gmail.com</string>
     <string name="edit">Редактировать</string>
     <string name="night_mode">Ночной режим</string>
-    <string name="username">Username</string>
+    <string name="username">FirstName LastName</string>
     <string name="clear_cache">Очистить кеш</string>
     <string name="kinopoisk">Кинопоиск</string>
     <string name="settings">Настройки</string>
@@ -23,4 +23,5 @@
     <string name="empty_list">Список пуст</string>
     <string name="movie_test_name">Законопослушный гражданин</string>
     <string name="top_rating">Фильмы с высоким рейтингом кинопоиска</string>
+    <string name="description">Описание</string>
 </resources>
