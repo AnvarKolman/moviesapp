@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -30,7 +31,6 @@ class SearchFragment : Fragment() {
 
     private lateinit var _moviesAdapter: MoviesAdapter
     private lateinit var _binding: FragmentSearchBinding
-    private lateinit var requestManager: RequestManager
 
     private val _viewModel: SearchViewModel by viewModels {
         factory.create()
@@ -50,8 +50,19 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        requestManager = Glide.with(requireContext())
-        _moviesAdapter = MoviesAdapter(requestManager)
+
+        return _binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        arguments?.getString("search")?.let {
+            _binding.searchEditText.setText(it)
+            _viewModel.findMovieByName(it)
+        }
+
+        _moviesAdapter = MoviesAdapter()
         with(_binding.cinemaRecycler) {
             adapter = _moviesAdapter
             _moviesAdapter.onMoreBtnClick = { doc, view ->
@@ -95,15 +106,10 @@ class SearchFragment : Fragment() {
                 else -> false
             }
         }
-        return _binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        arguments?.getString("search")?.let {
-            _binding.searchEditText.setText(it)
-            _viewModel.findMovieByName(it)
-        }
+    override fun onStart() {
+        super.onStart()
         _viewModel.movies.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 _binding.infoTextView.visibility = View.VISIBLE
@@ -119,6 +125,5 @@ class SearchFragment : Fragment() {
                 _binding.moviesIndicator.show()
             }
         }
-
     }
 }

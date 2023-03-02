@@ -20,7 +20,9 @@ class MoviesViewModel(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    val isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
     private val movieList = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>>
         get() = movieList
@@ -43,15 +45,15 @@ class MoviesViewModel(
     }
 
     private fun findTopMovies() {
-        isLoading.value = false
+        _isLoading.value = false
         val result = moviesRepository.findTopMovies().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { it.movies }
             .subscribe({
-                isLoading.value = true
+                _isLoading.value = true
                 movieList.postValue(it)
             }, {
-                isLoading.value = true
+                _isLoading.value = true
             })
         dispose.add(result)
     }

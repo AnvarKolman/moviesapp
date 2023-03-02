@@ -1,6 +1,5 @@
 package com.oder.cinema.ui.adapters
 
-import android.transition.AutoTransition
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestManager
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.oder.cinema.R
@@ -17,7 +16,6 @@ import com.oder.cinema.model.Movie
 import java.util.*
 
 class MoviesAdapter(
-    private val requestManager: RequestManager,
     private val imageCaching: Boolean = false,
 ) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
@@ -38,19 +36,19 @@ class MoviesAdapter(
         val imageView: ImageView
         val year: TextView
         val imdbRating: TextView
-        val kinopoiskRationg: TextView
+        val kinopoiskRating: TextView
         val description: TextView
 
         /*private val movieLayout: LinearLayout
-        private val moreBtn: Button*/
-        private val autoTransition = AutoTransition()
+        private val moreBtn: Button
+        private val autoTransition = AutoTransition()*/
 
         init {
             movieName = view.findViewById(R.id.movieName)
             imageView = view.findViewById(R.id.image_view)
             year = view.findViewById(R.id.year)
             imdbRating = view.findViewById(R.id.rating_imdb)
-            kinopoiskRationg = view.findViewById(R.id.rating_kinopoisk)
+            kinopoiskRating = view.findViewById(R.id.rating_kinopoisk)
             description = view.findViewById(R.id.description)
             view.findViewById<LinearLayout>(R.id.movie_layout).setOnClickListener {
                 /*val v = if (description.visibility == View.GONE) View.VISIBLE else View.GONE
@@ -83,12 +81,12 @@ class MoviesAdapter(
         holder.movieName.text = movie.name
         holder.year.text = movie.year.toString()
         holder.imdbRating.text = movie.rating?.imdb.toString()
-        holder.kinopoiskRationg.text = movie.rating?.kp.toString()
+        holder.kinopoiskRating.text = movie.rating?.kp.toString()
         holder.description.text = movie.shortDescription
         if (movie.poster?.previewUrl != null) {
             holder.imageView.loadImage(movie.poster?.previewUrl)
         } else {
-            requestManager.load(movie.poster?.url).into(holder.imageView)
+            holder.imageView.loadImage(movie.poster?.url)
         }
     }
 
@@ -96,14 +94,14 @@ class MoviesAdapter(
 
     private fun ImageView.loadImage(url: String?) {
         if (imageCaching) {
-            requestManager.load(url)
+            Glide.with(this).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .fallback(R.drawable.ic_baseline_local_movies)
                 .error(R.drawable.ic_baseline_local_movies)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
         } else {
-            requestManager.load(url)
+            Glide.with(this).load(url)
                 .fallback(R.drawable.ic_baseline_local_movies)
                 .error(R.drawable.ic_baseline_local_movies)
                 .transition(DrawableTransitionOptions.withCrossFade())

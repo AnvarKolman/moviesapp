@@ -1,22 +1,12 @@
 package com.oder.cinema.ui
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.graphics.Point
-import android.graphics.Rect
-import android.graphics.RectF
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.gson.Gson
 import com.oder.cinema.R
@@ -27,9 +17,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     private lateinit var _binding: FragmentMovieDetailBinding
     private val gson = Gson()
-    private lateinit var requestManager: RequestManager
 
-    private var currentAnimator: Animator? = null
+    //private var currentAnimator: Animator? = null
     private var shortAnimationDuration: Int = 0
 
     override fun onCreateView(
@@ -38,7 +27,18 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
-        requestManager = Glide.with(requireContext())
+
+        //TODO imageZoom
+        /*_binding.image.setOnClickListener {
+            zoomImageFromThumb(_binding.expandedImage, R.drawable.ic_baseline_local_movies)
+        }*/
+        shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
+
+        return _binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val arg = arguments?.getString(Movie::class.java.name)
         gson.fromJson(arg, Movie::class.java)?.let {
 
@@ -57,22 +57,10 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             _binding.time.text = it.movieLength.toString()
             _binding.ratingTextView.text = it.rating?.imdb.toString()
         }
-
-        //TODO imageZoom
-        /*_binding.image.setOnClickListener {
-            zoomImageFromThumb(_binding.expandedImage, R.drawable.ic_baseline_local_movies)
-        }*/
-        shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
-
-        return _binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun ImageView.loadImage(url: String?) {
-        requestManager.load(url)
+        Glide.with(this).load(url)
             .fallback(R.drawable.ic_baseline_local_movies)
             .error(R.drawable.ic_baseline_local_movies)
             .transition(DrawableTransitionOptions.withCrossFade())
