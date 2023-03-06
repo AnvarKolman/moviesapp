@@ -1,5 +1,6 @@
 package com.oder.cinema.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,7 +24,16 @@ class SearchViewModel(
 
     private val dispose = CompositeDisposable()
 
-    fun saveDoc(movie: Movie): Completable = moviesRepository.saveDoc(movie)
+    fun saveDoc(movie: Movie) {
+        val disposable = moviesRepository.saveDoc(movie).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.e(TAG, "Movie saved")
+            }, { error ->
+                Log.e(TAG, "Unable to save movie", error)
+            })
+        dispose.add(disposable)
+    }
 
     fun findMovieByName(movieName: String) {
         _isLoading.value = false
@@ -33,8 +43,9 @@ class SearchViewModel(
             .subscribe({
                 _isLoading.value = true
                 movieList.postValue(it)
-            }, {
+            }, { error ->
                 _isLoading.value = true
+                Log.e(TAG, "Unable to find movie by name", error)
             })
         dispose.add(disposable)
     }
@@ -42,6 +53,10 @@ class SearchViewModel(
     override fun onCleared() {
         super.onCleared()
         dispose.clear()
+    }
+
+    companion object {
+        private val TAG = SearchViewModel::class.java.simpleName
     }
 
 }

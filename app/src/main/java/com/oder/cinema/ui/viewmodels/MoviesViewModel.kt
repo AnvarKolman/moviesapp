@@ -37,9 +37,9 @@ class MoviesViewModel(
         val disposable = moviesRepository.saveDoc(movie).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.i("Movie saved", "Movie saved")
-            }, {
-
+                Log.i(TAG, "Movie saved")
+            }, { error ->
+                Log.e(TAG, "Unable to find top movies", error)
             })
         dispose.add(disposable)
     }
@@ -52,8 +52,9 @@ class MoviesViewModel(
             .subscribe({
                 _isLoading.value = true
                 movieList.postValue(it)
-            }, {
+            }, { error ->
                 _isLoading.value = true
+                Log.e(TAG, "Unable to find top movies", error)
             })
         dispose.add(result)
     }
@@ -61,6 +62,10 @@ class MoviesViewModel(
     override fun onCleared() {
         super.onCleared()
         dispose.clear()
+    }
+
+    companion object {
+        private val TAG = MoviesViewModel::class.java.simpleName
     }
 
 }

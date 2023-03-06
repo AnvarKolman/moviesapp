@@ -1,5 +1,6 @@
 package com.oder.cinema.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,11 +28,9 @@ class FavoriteMoviesViewModel(
         movie.id?.let {
             moviesRepository.deleteById(it).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    fetchSavedMovies()
-                }, {
-
-                })
+                .subscribe(
+                    { fetchSavedMovies() },
+                    { error -> Log.e(TAG, "Unable to remove movie", error) })
         }
 
     }
@@ -39,17 +38,19 @@ class FavoriteMoviesViewModel(
     fun fetchSavedMovies() {
         val result = moviesRepository.getAll().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                moviesList.value = it
-            }, {
-                //TODO
-            })
+            .subscribe(
+                { moviesList.value = it },
+                { error -> Log.e(TAG, "Unable to get movies", error) })
         cs.add(result)
     }
 
     override fun onCleared() {
         super.onCleared()
         cs.clear()
+    }
+
+    companion object {
+        private val TAG = FavoriteMoviesViewModel::class.java.simpleName
     }
 
 }
