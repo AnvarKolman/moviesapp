@@ -35,7 +35,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding.avatar.setOnClickListener {
+        _binding.upload.setOnClickListener {
             getContent.launch("image/*")
         }
     }
