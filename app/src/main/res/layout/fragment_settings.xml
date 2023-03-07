@@ -7,122 +7,237 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.SettingsFragment">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:letterSpacing="0.08"
-            android:text="@string/profile"
-            android:textSize="16sp" />
+        tools:context=".ui.ProfileFragment">
 
         <ImageView
-            android:id="@+id/avatar"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:contentDescription="@string/add"
-            android:focusable="true"
-            android:src="@drawable/ic_outline_add_a_photo_24"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/profile_img"
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/username"
-            android:textSize="22sp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/change_photo"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="17dp"
+            android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/avatar_image_view" />
+            tools:text="Satria Adhi Pradana" />
 
-        <Button
-            android:id="@+id/download"
-            android:layout_width="wrap_content"
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingHorizontal="30dp"
-            android:text="Загрузить фото" />
-
-
-        <LinearLayout
-            style="@style/SettingsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/MenuTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/night_mode" />
-        </LinearLayout>
+            android:layout_marginHorizontal="42dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/purple"
+            android:paddingHorizontal="60dp"
+            android:text="@string/upload_item"
+            android:textAllCaps="false"
+            android:textColor="#EAEAEA"
+            app:cornerRadius="14dp"
+            app:icon="@drawable/share"
+            app:iconGravity="start"
+            app:iconPadding="0dp" />
 
         <LinearLayout
-            style="@style/SettingsLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/outline_clear"
+                android:background="@drawable/background_shape"
+                android:padding="10dp"
+                android:src="@drawable/credit_card"
                 tools:ignore="ContentDescription" />
 
             <TextView
-                style="@style/MenuTextView"
-                android:layout_width="wrap_content"
+                style="@style/profile_text_item"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/clear_cache" />
+                android:layout_weight="1"
+                android:text="@string/trade_store"
+                app:drawableEndCompat="@drawable/vector" />
+
         </LinearLayout>
 
-
         <LinearLayout
-            style="@style/SettingsLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_line"
-                android:src="@drawable/baseline_help_outline" />
+                android:background="@drawable/background_shape"
+                android:padding="10dp"
+                android:src="@drawable/credit_card"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                style="@style/MenuTextView"
+                style="@style/profile_text_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/payment_method"
+                app:drawableEndCompat="@drawable/vector" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_shape"
+                android:padding="10dp"
+                android:src="@drawable/credit_card"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/profile_text_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/balance" />
+
+            <TextView
+                style="@style/profile_text_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                tools:text="$ 1593" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_shape"
+                android:padding="10dp"
+                android:src="@drawable/credit_card"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/profile_text_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/trade_history"
+                app:drawableEndCompat="@drawable/vector" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_shape"
+                android:padding="10dp"
+                android:src="@drawable/restore"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/profile_text_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/restore_purchase"
+                app:drawableEndCompat="@drawable/vector" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_shape"
+                android:padding="10dp"
+                android:src="@drawable/help"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/profile_text_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/help" />
         </LinearLayout>
 
-
         <LinearLayout
-            style="@style/SettingsLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baseline_logout" />
+                android:background="@drawable/background_shape"
+                android:padding="10dp"
+                android:src="@drawable/log_in"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                style="@style/MenuTextView"
-                android:layout_width="wrap_content"
+                style="@style/profile_text_item"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/log_out" />
         </LinearLayout>

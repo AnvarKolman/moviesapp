@@ -28,4 +28,13 @@
     <string name="profile">Профиль</string>
     <string name="help">Помощь</string>
     <string name="log_out">Выход</string>
+
+    <string name="change_photo">Change photo</string>
+    <string name="upload_item">Upload item</string>
+
+    <string name="trade_store">Trade store</string>
+    <string name="payment_method">Payment method</string>
+    <string name="balance">Balance</string>
+    <string name="trade_history">Trade history</string>
+    <string name="restore_purchase">Restore Purchase</string>
 </resources>
