@@ -11,13 +11,11 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.google.gson.Gson
 import com.oder.cinema.R
+import com.oder.cinema.appComponent
 import com.oder.cinema.databinding.FragmentSearchBinding
 import com.oder.cinema.model.Movie
 import com.oder.cinema.ui.adapters.MoviesAdapter

@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.oder.cinema.R
+import com.oder.cinema.appComponent
 import com.oder.cinema.databinding.MoviesFragmentBinding
 import com.oder.cinema.model.Movie
 import com.oder.cinema.ui.adapters.MoviesAdapter
